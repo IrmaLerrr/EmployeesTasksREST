@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @JsonPropertyOrder({"id", "title", "status", "author", "assignee", "description"})
@@ -15,10 +18,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Task {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String title;
+
     private String description;
+
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
@@ -30,5 +36,12 @@ public class Task {
     @JoinColumn(name = "assignee")
     private Employee assignee;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deadline")
+    private LocalDate deadline;
 }

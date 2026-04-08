@@ -1,9 +1,8 @@
 package taskmanagement.service;
 
 import org.springframework.stereotype.Service;
-import taskmanagement.model.Employee;
+import taskmanagement.dto.TaskDTO;
 import taskmanagement.model.Task;
-import taskmanagement.model.TaskStatus;
 import taskmanagement.repository.TaskRepository;
 
 import java.util.List;
@@ -16,19 +15,28 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task createTask(Integer id, String title, TaskStatus status, Employee author, Employee assignee, String description) {
-        Task task = Task.builder()
-                .title(title)
-                .description(description)
-                .status(status)
-                .author(author)
-                .assignee(assignee)
-                .build();
-        return taskRepository.save(task);
+    public Task getTask(Integer id) {
+//        TODO
+        return null;
     }
 
-    public List<Task> getAllTasks() {
+    public List<Task> getAllTask() {
         return taskRepository.findAll();
+    }
+
+    public Task createTask(TaskDTO employee) {
+        //        TODO
+        return null;
+    }
+
+    public Task updateTask(Integer id, TaskDTO employee) {
+        //        TODO
+        return null;
+    }
+
+    public void deleteTask(Integer id) {
+        //        TODO
+        return;
     }
 }
 
