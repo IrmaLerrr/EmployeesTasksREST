@@ -1,9 +1,11 @@
 package taskmanagement;
 
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import taskmanagement.model.Employee;
@@ -13,13 +15,17 @@ import taskmanagement.repository.EmployeeRepository;
 import taskmanagement.repository.TaskRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     @Component
@@ -36,38 +42,35 @@ public class Application {
         @Transactional
         public void run(String... args) {
             log.info("Creating Test Data");
-            Employee author = Employee.builder()
-                    .firstName("Иван")
-                    .lastName("Петров")
-                    .email("ivan.petrov@example.com")
-                    .phoneNumber("+7 (999) 123-45-67")
-                    .position("Team Lead")
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+            Employee author = new Employee()
+                    .setFirstName("Иван")
+                    .setLastName("Петров")
+                    .setEmail("ivan.petrov@example.com")
+                    .setPhoneNumber("+7 (999) 123-45-67")
+                    .setPosition("Team Lead")
+                    .setCreatedAt(LocalDateTime.now())
+                    .setUpdatedAt(LocalDateTime.now());
 
-            Employee assignee = Employee.builder()
-                    .firstName("Мария")
-                    .lastName("Сидорова")
-                    .email("maria.sidorova@example.com")
-                    .phoneNumber("+7 (999) 765-43-21")
-                    .position("Developer")
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+            Employee assignee = new Employee()
+                    .setFirstName("Мария")
+                    .setLastName("Сидорова")
+                    .setEmail("maria.sidorova@example.com")
+                    .setPhoneNumber("+7 (999) 765-43-21")
+                    .setPosition("Developer")
+                    .setCreatedAt(LocalDateTime.now())
+                    .setUpdatedAt(LocalDateTime.now());
 
             Employee savedAuthor = employeeRepository.save(author);
             Employee savedAssignee = employeeRepository.save(assignee);
 
-            Task task = Task.builder()
-                    .title("Реализовать функционал аутентификации")
-                    .description("Необходимо реализовать JWT аутентификацию для REST API")
-                    .status(TaskStatus.OPEN)
-                    .author(savedAuthor)
-                    .assignee(savedAssignee)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+            Task task = new Task()
+                    .setTitle("Реализовать функционал аутентификации")
+                    .setDescription("Необходимо реализовать JWT аутентификацию для REST API")
+                    .setStatus(TaskStatus.OPEN)
+                    .setAuthor(savedAuthor)
+                    .setAssignee(savedAssignee)
+                    .setCreatedAt(LocalDateTime.now())
+                    .setUpdatedAt(LocalDateTime.now());
 
             Task savedTask = taskRepository.save(task);
         }

@@ -5,36 +5,53 @@ import taskmanagement.dto.EmployeeDTO;
 import taskmanagement.model.Employee;
 import taskmanagement.repository.EmployeeRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final DtoMapper mapper;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, DtoMapper mapper) {
         this.employeeRepository = employeeRepository;
+        this.mapper = mapper;
     }
 
     public Employee getEmployee(Integer id) {
-//        TODO
-        return null;
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
     }
 
-    public Employee getAllEmployee() {
-        //        TODO
-        return null;
+    public List<Employee> getAllEmployee() {
+        return employeeRepository.findAll();
     }
 
     public Employee createEmployee(EmployeeDTO employee) {
-        //        TODO
-        return null;
+        return employeeRepository.save(mapper
+                .dtoToEntity(employee)
+                .setCreatedAt(LocalDateTime.now())
+                .setUpdatedAt(LocalDateTime.now())
+        );
     }
 
     public Employee updateEmployee(Integer id, EmployeeDTO employee) {
-        //        TODO
-        return null;
+        Employee target = employeeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
+        target.setFirstName(employee.getFirstName())
+                .setLastName(employee.getLastName())
+                .setEmail(employee.getEmail())
+                .setSalaryGross(employee.getSalaryGross())
+                .setPhoneNumber(employee.getPhoneNumber())
+                .setPosition(employee.getPosition())
+                .setUpdatedAt(LocalDateTime.now());
+        return employeeRepository.save(target);
     }
 
     public void deleteEmployee(Integer id) {
-        //        TODO
-        return;
+        Employee target = employeeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
+        employeeRepository.delete(target);
     }
 }
