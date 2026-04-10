@@ -1,7 +1,7 @@
 package taskmanagement.service;
 
 import org.springframework.stereotype.Service;
-import taskmanagement.dto.TaskDTO;
+import taskmanagement.dto.TaskDTORequest;
 import taskmanagement.model.Employee;
 import taskmanagement.model.Task;
 import taskmanagement.repository.EmployeeRepository;
@@ -32,7 +32,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task createTask(TaskDTO taskDTO) {
+    public Task createTask(TaskDTORequest taskDTO) {
         Integer author_id = taskDTO.getAuthor_id();
         Integer assignee_id = taskDTO.getAssignee_id();
         Employee author = employeeRepository.findById(author_id)
@@ -49,7 +49,7 @@ public class TaskService {
         );
     }
 
-    public Task updateTask(Integer id, TaskDTO task) {
+    public Task updateTask(Integer id, TaskDTORequest task) {
         Task target = taskRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Task not found with id: " + id));
 

@@ -1,7 +1,7 @@
 package taskmanagement.service;
 
 import org.springframework.stereotype.Service;
-import taskmanagement.dto.EmployeeDTO;
+import taskmanagement.dto.EmployeeDTORequest;
 import taskmanagement.model.Employee;
 import taskmanagement.repository.EmployeeRepository;
 
@@ -28,7 +28,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee createEmployee(EmployeeDTO employee) {
+    public Employee createEmployee(EmployeeDTORequest employee) {
         return employeeRepository.save(mapper
                 .dtoToEntity(employee)
                 .setCreatedAt(LocalDateTime.now())
@@ -36,7 +36,7 @@ public class EmployeeService {
         );
     }
 
-    public Employee updateEmployee(Integer id, EmployeeDTO employee) {
+    public Employee updateEmployee(Integer id, EmployeeDTORequest employee) {
         Employee target = employeeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
         target.setFirstName(employee.getFirstName())

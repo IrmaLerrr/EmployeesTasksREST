@@ -1,8 +1,9 @@
 package taskmanagement.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import taskmanagement.dto.TaskDTO;
+import taskmanagement.dto.TaskDTORequest;
 import taskmanagement.service.TaskService;
 
 import java.util.NoSuchElementException;
@@ -25,17 +26,17 @@ public class TaskController {
     }
 
     @GetMapping(path = "api/tasks")
-    public ResponseEntity<?> getAllTask(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getAllTask() {
         return ResponseEntity.ok().body(taskService.getAllTask());
     }
 
     @PostMapping("api/tasks")
-    public ResponseEntity<?> createTask(@RequestBody TaskDTO task) {
+    public ResponseEntity<?> createTask(@Valid @RequestBody TaskDTORequest task) {
         return ResponseEntity.ok().body(taskService.createTask(task));
     }
 
     @PutMapping("api/tasks/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable("id") Integer id, @RequestBody TaskDTO task) {
+    public ResponseEntity<?> updateTask(@PathVariable("id") Integer id, @Valid @RequestBody TaskDTORequest task) {
         try {
             return ResponseEntity.ok().body(taskService.updateTask(id, task));
         } catch (NoSuchElementException e) {

@@ -2,10 +2,12 @@ package taskmanagement.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import taskmanagement.dto.EmployeeDTO;
-import taskmanagement.dto.TaskDTO;
+import taskmanagement.dto.*;
 import taskmanagement.model.Employee;
 import taskmanagement.model.Task;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DtoMapper {
@@ -15,17 +17,31 @@ public class DtoMapper {
         this.modelMapper = modelMapper;
     }
 
-    Employee dtoToEntity(EmployeeDTO dto) {
+    public Employee dtoToEntity(EmployeeDTORequest dto) {
         return modelMapper.map(dto, Employee.class);
     }
 
-    Task dtoToEntity(TaskDTO dto) {
+    public Task dtoToEntity(TaskDTORequest dto) {
         return modelMapper.map(dto, Task.class);
     }
 
-//    EmployeeDTO EntityToDto(Employee entity) {
-//        return modelMapper.map(entity, EmployeeDTO.class);
-//    }
+    public EmployeeDTOResponse entityToDto(Employee entity) {
+        return modelMapper.map(entity, EmployeeDTOResponse.class);
+    }
+
+    public List<EmployeeDTOResponse> entityToDto(List<Employee> entities) {
+        return entities.stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public EmployeeDTOResponseShort entityToDtoShort(Employee entity) {
+        return modelMapper.map(entity, EmployeeDTOResponseShort.class);
+    }
+
+    public TaskDTOResponse entityToDto(Task entity) {
+        return modelMapper.map(entity, TaskDTOResponse.class);
+    }
 
 }
 
