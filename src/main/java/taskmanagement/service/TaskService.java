@@ -28,7 +28,7 @@ public class TaskService {
                 .orElseThrow(() -> new NoSuchElementException("Task not found with id: " + id));
     }
 
-    public List<Task> getAllTask() {
+    public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 

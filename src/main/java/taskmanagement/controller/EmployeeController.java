@@ -28,7 +28,7 @@ public class EmployeeController {
 
     @GetMapping(path = "api/employees")
     public ResponseEntity<?> getAllEmployee() {
-        List<EmployeeDTOResponse> emp = mapper.entityToDto(employeeService.getAllEmployee());
+        List<EmployeeDTOResponse> emp = mapper.entityToDtoEmployee(employeeService.getAllEmployee());
         return ResponseEntity.ok().body(emp);
     }
 

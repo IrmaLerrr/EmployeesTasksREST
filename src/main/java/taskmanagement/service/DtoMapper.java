@@ -1,5 +1,6 @@
 package taskmanagement.service;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import taskmanagement.dto.*;
@@ -15,6 +16,27 @@ public class DtoMapper {
 
     public DtoMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+        configureMappings();
+    }
+
+    private void configureMappings() {
+        Converter<Employee, EmployeeDTOResponseShort> employeeToShortConverter =
+                context -> {
+                    Employee employee = context.getSource();
+                    if (employee == null) return null;
+                    return new EmployeeDTOResponseShort()
+                            .setId(employee.getId())
+                            .setFirstName(employee.getFirstName())
+                            .setLastName(employee.getLastName());
+                };
+
+        modelMapper.addConverter(employeeToShortConverter);
+
+        modelMapper.typeMap(Task.class, TaskDTOResponse.class)
+                .addMappings(mapper -> {
+                    mapper.using(employeeToShortConverter).map(Task::getAuthor, TaskDTOResponse::setAuthor);
+                    mapper.using(employeeToShortConverter).map(Task::getAssignee, TaskDTOResponse::setAssignee);
+                });
     }
 
     public Employee dtoToEntity(EmployeeDTORequest dto) {
@@ -29,7 +51,7 @@ public class DtoMapper {
         return modelMapper.map(entity, EmployeeDTOResponse.class);
     }
 
-    public List<EmployeeDTOResponse> entityToDto(List<Employee> entities) {
+    public List<EmployeeDTOResponse> entityToDtoEmployee(List<Employee> entities) {
         return entities.stream()
                 .map(this::entityToDto)
                 .collect(Collectors.toList());
@@ -43,5 +65,10 @@ public class DtoMapper {
         return modelMapper.map(entity, TaskDTOResponse.class);
     }
 
+    public List<TaskDTOResponse> entityToDtoTask(List<Task> entities) {
+        return entities.stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
+    }
 }
 

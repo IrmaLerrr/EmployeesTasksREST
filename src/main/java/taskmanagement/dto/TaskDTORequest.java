@@ -1,6 +1,7 @@
 package taskmanagement.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class TaskDTORequest {
 
     private TaskStatus status;
 
-    @NotBlank(message = "author is required")
+    @NotNull(message = "author is required")
     private Integer author_id;
 
     private Integer assignee_id;
