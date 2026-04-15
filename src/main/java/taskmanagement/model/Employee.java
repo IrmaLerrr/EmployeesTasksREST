@@ -45,10 +45,10 @@ public class Employee {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Task> created_tasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "assignee", fetch = FetchType.LAZY)
     private List<Task> assigned_tasks = new ArrayList<>();
 
 
