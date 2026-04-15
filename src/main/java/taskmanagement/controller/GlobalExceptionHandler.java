@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler  {
 
+    // Обработка ошибок валидации
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorMessage> handleValidationExceptions(MethodArgumentNotValidException e) {
         String errorMessage = e.getBindingResult()
@@ -35,6 +38,44 @@ public class GlobalExceptionHandler  {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
+    // Обработка ошибок 404
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<CustomErrorMessage> handleNoSuchElementException(NoSuchElementException e) {
+        CustomErrorMessage body = new CustomErrorMessage()
+                .setMessage(e.getMessage())
+                .setCode(HttpStatus.NOT_FOUND.value())
+                .setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    // Обработка ошибок парсинга json
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<CustomErrorMessage> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e) {
+
+        CustomErrorMessage body = new CustomErrorMessage()
+                .setMessage(e.getMessage())
+                .setCode(HttpStatus.BAD_REQUEST.value())
+                .setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    // Обработка ошибок распознования формата
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<CustomErrorMessage> handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException e) {
+
+        CustomErrorMessage body = new CustomErrorMessage()
+                .setMessage(e.getMessage())
+                .setCode(HttpStatus.BAD_REQUEST.value())
+                .setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    // Обработка остальных ошибок
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<CustomErrorMessage> handleResponseStatusException(
             ResponseStatusException e, WebRequest request) {
@@ -45,16 +86,6 @@ public class GlobalExceptionHandler  {
                 .setTimestamp(LocalDateTime.now());
 
         return new ResponseEntity<>(body, e.getStatusCode());
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<CustomErrorMessage> handleNoSuchElementException(NoSuchElementException e) {
-        CustomErrorMessage body = new CustomErrorMessage()
-                .setMessage(e.getMessage())
-                .setCode(HttpStatus.NOT_FOUND.value())
-                .setTimestamp(LocalDateTime.now());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @Data
