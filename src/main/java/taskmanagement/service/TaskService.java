@@ -25,7 +25,7 @@ public class TaskService {
 
     public Task getTask(Integer id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Task not found with id: " + id)); //todo текст в константы
     }
 
     public List<Task> getAllTasks() {
@@ -34,7 +34,7 @@ public class TaskService {
 
     public Task createTask(TaskDTORequest taskDTO) {
         Integer author_id = taskDTO.getAuthor_id();
-        Integer assignee_id = taskDTO.getAssignee_id();
+        Integer assignee_id = taskDTO.getAssignee_id()
         Employee author = employeeRepository.findById(author_id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + author_id));
         Employee assignee = assignee_id == null ? null : employeeRepository.findById(assignee_id)

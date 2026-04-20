@@ -11,16 +11,18 @@ import taskmanagement.service.TaskService;
 import java.util.List;
 
 @RestController
+
 public class TaskController {
     private final TaskService taskService;
     private final DtoMapper mapper;
-
+    // todo Посмотри аннатацию @RequiredArgsConstructor
     public TaskController(TaskService taskService, DtoMapper mapper) {
         this.taskService = taskService;
         this.mapper = mapper;
     }
 
     @GetMapping(path = "api/tasks/{id}")
+    // todo ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<?> getTask(@PathVariable("id") Integer id) {
         TaskDTOResponse task = mapper.entityToDto(taskService.getTask(id));
         return ResponseEntity.ok().body(task);

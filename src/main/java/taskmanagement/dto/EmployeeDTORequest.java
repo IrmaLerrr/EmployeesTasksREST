@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeDTORequest {
+    //todo EmployeeDto, припискеи Request и Response особо не нужны, чтоб понятнее для чего эта ДТО можно указывать действие в названии - CreateEmployeeDto. или UpdateEmployeeDto(в случае если набор полей разный для создания и редакирования)
     @NotBlank(message = "firstName is required")
     private String firstName;
 
@@ -25,7 +26,7 @@ public class EmployeeDTORequest {
     @Min(value = 0, message = "salary can not be less than 0")
     private Integer salaryGross;
 
-    private String phoneNumber;
+    private String phoneNumber; //todo валидация
 
     @NotBlank(message = "position is required")
     private String position;

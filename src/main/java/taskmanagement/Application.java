@@ -1,4 +1,4 @@
-package taskmanagement;
+package taskmanagement;//todo пакеты стоит формировать по такой формуле: [домен].[компания].[проект].[слой(сервис, репозиторий, корнтроллер и тд)] + у тебя микросервис по управлению сотрудниками(employeeservice), таски это как доп сущность
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -8,17 +8,17 @@ import org.springframework.context.annotation.Bean;
 
 @Slf4j
 @SpringBootApplication
-public class Application {
+public class Application { //todo называем Названиесервисa+Application
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
+    @Bean //todo создание бинов лучше выносить в отдельный конфигурационный класс помеченый @Configuration
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
-//    @Component
+//    @Component todo Стараемся писать код чисто) если не используется что то, то сносим
 //    class Runner implements CommandLineRunner {
 //        private final EmployeeRepository employeeRepository;
 //        private final TaskRepository taskRepository;

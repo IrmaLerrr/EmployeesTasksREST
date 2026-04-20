@@ -13,13 +13,14 @@ import java.util.List;
 @RestController
 public class EmployeeController {
     private final EmployeeService employeeService;
-    private final DtoMapper mapper;
+    private final DtoMapper mapper; //todo всю логику и манипуляции из контроллера гнать в сервисный слой.
 
     public EmployeeController(EmployeeService employeeService, DtoMapper mapper) {
         this.employeeService = employeeService;
         this.mapper = mapper;
     }
 
+    //todo у тебя в каждом методе повторяется api/employees, посмотри аннотацияю @RequestMapping - DONE
     @GetMapping(path = "api/employees/{id}")
     public ResponseEntity<?> getEmployee(@PathVariable("id") Integer id) {
         EmployeeDTOResponse emp = mapper.entityToDto(employeeService.getEmployee(id));

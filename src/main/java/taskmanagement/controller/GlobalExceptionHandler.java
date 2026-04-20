@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler  {
-
+//todo коменты убираем
     // Обработка ошибок валидации
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorMessage> handleValidationExceptions(MethodArgumentNotValidException e) {
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler  {
                 .setCode(e.getStatusCode().value())
                 .setTimestamp(LocalDateTime.now());
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST); // todo можно использовать билдер) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
     // Обработка ошибок 404

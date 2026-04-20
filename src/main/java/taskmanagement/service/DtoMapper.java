@@ -9,7 +9,9 @@ import taskmanagement.model.Task;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+//todo Попробуй в качестве маппера mapstruct. он очень попсовый и удобный, используется наверное везде)
+//todo у тебя тут  маппер который трудится на двух работах(работает с Тасками и имплоями). лучше разделить ответственность на 2 маппера, пусть каждый занимается своими классами)
+//todo вынеси мапперы из сервисов в папку mapper
 @Component
 public class DtoMapper {
     private final ModelMapper modelMapper;

@@ -19,9 +19,15 @@ public class EmployeeService {
         this.mapper = mapper;
     }
 
+    /**
+     * //todo добавить джава доку для сервисыных методов
+     *
+     * @param id - id родителя
+     * @return  Employee the number of elements in this list
+     */
     public Employee getEmployee(Integer id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id)); // todo сделать собственный эксепшен
     }
 
     public List<Employee> getAllEmployee() {
@@ -39,6 +45,7 @@ public class EmployeeService {
     public Employee updateEmployee(Integer id, EmployeeDTORequest employee) {
         Employee target = employeeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
+        // todo через маппер обновляем) используй мапстракт
         target.setFirstName(employee.getFirstName())
                 .setLastName(employee.getLastName())
                 .setEmail(employee.getEmail())

@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+//todo EmployeeShortDTO
 public class EmployeeDTOResponseShort {
     private Integer id;
     private String firstName;
