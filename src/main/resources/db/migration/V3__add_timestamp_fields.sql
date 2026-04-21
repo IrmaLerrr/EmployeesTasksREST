@@ -1,0 +1,34 @@
+-- V3__add_timestamp_fields.sql
+
+ALTER TABLE employee
+ADD COLUMN IF NOT EXISTS created_at TIMESTAMP,
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP;
+
+UPDATE employee
+SET created_at = CURRENT_TIMESTAMP,
+    updated_at = CURRENT_TIMESTAMP
+WHERE created_at IS NULL;
+
+ALTER TABLE employee
+ALTER COLUMN created_at SET NOT NULL,
+ALTER COLUMN updated_at SET NOT NULL;
+
+ALTER TABLE task
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+
+UPDATE task
+SET created_at = CURRENT_TIMESTAMP
+WHERE created_at IS NULL;
+
+UPDATE task
+SET updated_at = CURRENT_TIMESTAMP
+WHERE updated_at IS NULL;
+
+ALTER TABLE task
+ALTER COLUMN created_at SET NOT NULL,
+ALTER COLUMN updated_at SET NOT NULL;
+
+ALTER TABLE task
+ADD COLUMN deadline DATE;
+
