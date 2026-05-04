@@ -1,24 +1,22 @@
 package org.irmalerrr.employeeservice.mapper;
 
 
+import lombok.RequiredArgsConstructor;
 import org.irmalerrr.employeeservice.dto.*;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
-import org.irmalerrr.employeeservice.model.Employee;
-import org.irmalerrr.employeeservice.model.Task;
+import org.irmalerrr.employeeservice.entity.Employee;
+import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.repository.EmployeeRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = EmployeeMapper.class)
+@RequiredArgsConstructor
 public abstract class TaskMapper {
-
-    @Autowired
     protected EmployeeRepository employeeRepository;
 
     @Mapping(target = "author", source = "author")
@@ -58,6 +56,6 @@ public abstract class TaskMapper {
         return ids.stream()
                 .map(id -> employeeRepository.findById(id)
                         .orElseThrow(() -> new EmployeeNotFoundException(id)))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

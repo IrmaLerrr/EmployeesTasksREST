@@ -5,7 +5,7 @@ import org.irmalerrr.employeeservice.dto.CreateEmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeDto;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
 import org.irmalerrr.employeeservice.mapper.EmployeeMapper;
-import org.irmalerrr.employeeservice.model.Employee;
+import org.irmalerrr.employeeservice.entity.Employee;
 import org.irmalerrr.employeeservice.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 

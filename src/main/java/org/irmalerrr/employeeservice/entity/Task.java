@@ -1,4 +1,4 @@
-package org.irmalerrr.employeeservice.model;
+package org.irmalerrr.employeeservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

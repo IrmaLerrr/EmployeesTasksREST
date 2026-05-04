@@ -6,7 +6,7 @@ import org.irmalerrr.employeeservice.dto.TaskDto;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
 import org.irmalerrr.employeeservice.exceptions.TaskNotFoundException;
 import org.irmalerrr.employeeservice.mapper.TaskMapper;
-import org.irmalerrr.employeeservice.model.Task;
+import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 

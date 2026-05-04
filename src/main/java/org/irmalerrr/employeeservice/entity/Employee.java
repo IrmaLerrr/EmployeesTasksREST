@@ -1,4 +1,4 @@
-package org.irmalerrr.employeeservice.model; //todo лучше всего вместо model сделай entity
+package org.irmalerrr.employeeservice.entity; //todo лучше всего вместо model сделай entity
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

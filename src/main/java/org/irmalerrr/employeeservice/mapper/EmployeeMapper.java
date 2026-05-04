@@ -3,7 +3,7 @@ package org.irmalerrr.employeeservice.mapper;
 import org.irmalerrr.employeeservice.dto.CreateEmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeShortDto;
-import org.irmalerrr.employeeservice.model.Employee;
+import org.irmalerrr.employeeservice.entity.Employee;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
