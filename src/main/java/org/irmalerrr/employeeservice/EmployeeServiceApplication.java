@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication
-@Slf4j
+@SpringBootApplication //todo: эту аннотацию лучше расположить непосредственно над классом для читаемости
+@Slf4j //todo: здесь уже не нужна аннотация получается
 @EnableJpaAuditing
 public class EmployeeServiceApplication { //todo - DONE - называем Названиесервисa+Application
     public static void main(String[] args) {

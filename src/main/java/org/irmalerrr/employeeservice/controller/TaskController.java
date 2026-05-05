@@ -15,16 +15,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+    //todo: убрать закомментированную строку
 //    private final DtoMapper mapper;
     // todo - DONE - Посмотри аннатацию @RequiredArgsConstructor
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "{id}") //todo: здесь и ниже тоже как будто не хватает символа /
     // todo - DONE - ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
 
     @GetMapping
+    //todo: в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<TaskDto>> getAllTask() {
         return ResponseEntity.ok().body(taskService.getAllTasks());
     }

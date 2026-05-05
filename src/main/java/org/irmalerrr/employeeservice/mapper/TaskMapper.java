@@ -21,11 +21,13 @@ public abstract class TaskMapper {
     @Autowired
     protected EmployeeRepository employeeRepository;
 
+    //todo: здесь маппинги можно не указывать, если совпадают наименования
     @Mapping(target = "author", source = "author")
     @Mapping(target = "assignee", source = "assignee")
     @Mapping(target = "viewers", source = "viewers")
     public abstract TaskDto toDto(Task task);
 
+    //todo: этот метод при наличии метода маппинга классов без листов (в данном случае toDto()) использует его в имплементации, указывать маппинги не нужно
     @Mapping(target = "author", source = "author")
     @Mapping(target = "assignee", source = "assignee")
     @Mapping(target = "viewers", source = "viewers")
@@ -47,6 +49,8 @@ public abstract class TaskMapper {
     @Mapping(target = "updatedAt", ignore = true)
     public abstract Task updateEntity(@MappingTarget Task entity, CreateTaskDto dto);
 
+    //todo: логику и получение информации из БД через репозиторий лучше не добавлять в маппер. маппер только мапит из одного состояния в другое
+    //todo: здесь пожалуй лучше будет найти соответствующие Employee в рамках сервиса, а в методы маппера передавать дополнительные аргументы
     protected Employee getEmployeeFromDto(Long id) {
         if (id == null) return null;
         return employeeRepository.findById(id)

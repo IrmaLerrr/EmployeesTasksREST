@@ -24,6 +24,7 @@ public class CreateTaskDto {
 
     private TaskStatus status;
 
+    //todo: лучше использовать наименование authorId, аналогично для assignee и viewers
     @NotNull(message = "author is required")
     private Long author;
 

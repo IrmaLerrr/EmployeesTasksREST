@@ -6,6 +6,7 @@ public class TaskNotFoundException extends ElementNotFoundException {
         super("Task not found with id: " + id);
     }
 
+    //todo: неиспользуемый код
     public TaskNotFoundException(String message) {
         super(message);
     }
