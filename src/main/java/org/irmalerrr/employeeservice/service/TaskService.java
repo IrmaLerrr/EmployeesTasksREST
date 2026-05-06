@@ -64,6 +64,7 @@ public class TaskService {
     public TaskDto updateTask(Long id, CreateTaskDto dto) {
         Task entity = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
+        //todo: дважды использован маппер. видимо следующая строка лишняя
         mapper.updateEntity(entity, dto);
         entity = taskRepository.save(mapper.updateEntity(entity, dto));
         return mapper.toDto(entity);

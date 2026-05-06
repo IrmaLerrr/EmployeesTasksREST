@@ -37,6 +37,7 @@ public class Task extends BaseEntity {
     @ManyToMany(mappedBy = "viewedTasks")
     private List<Employee> viewers = new ArrayList<>();
 
+    //todo: сначала располагаем поля-обычные колонки, затем поля-связи
     @Column(name = "deadline")
     private LocalDate deadline;
 }

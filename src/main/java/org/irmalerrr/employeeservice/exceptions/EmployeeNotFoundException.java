@@ -6,6 +6,7 @@ public class EmployeeNotFoundException extends ElementNotFoundException {
         super("Employee not found with id: " + id);
     }
 
+    //todo: неиспользуемый код
     public EmployeeNotFoundException(String message) {
         super(message);
     }
