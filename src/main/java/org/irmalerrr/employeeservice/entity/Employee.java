@@ -1,4 +1,4 @@
-package org.irmalerrr.employeeservice.entity; //todo лучше всего вместо model сделай entity
+package org.irmalerrr.employeeservice.entity; //todo - DONE - лучше всего вместо model сделай entity
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,11 +46,6 @@ public class Employee extends BaseEntity {
     private List<Task> assignedTasks = new ArrayList<>(); //todo - DONE - кемел кейс юзаем
 
     // todo - DONE - сделать связь мени ту мени с наблюдателями, через интерсект таблица
-    @ManyToMany
-    @JoinTable(
-            name = "task_viewers",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id")
-    )
+    @ManyToMany(mappedBy = "viewers")
     private List<Task> viewedTasks = new ArrayList<>();
 }

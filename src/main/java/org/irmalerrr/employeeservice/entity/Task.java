@@ -26,6 +26,10 @@ public class Task extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
+    //todo - DONE - сначала располагаем поля-обычные колонки, затем поля-связи
+    @Column(name = "deadline")
+    private LocalDate deadline;
+
     @ManyToOne
     @JoinColumn(name = "author")
     private Employee author;
@@ -34,10 +38,12 @@ public class Task extends BaseEntity {
     @JoinColumn(name = "assignee")
     private Employee assignee;
 
-    @ManyToMany(mappedBy = "viewedTasks")
+    @ManyToMany
+    @JoinTable(
+            name = "task_viewers",  // новая таблица
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
     private List<Employee> viewers = new ArrayList<>();
 
-    //todo: сначала располагаем поля-обычные колонки, затем поля-связи
-    @Column(name = "deadline")
-    private LocalDate deadline;
 }

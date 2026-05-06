@@ -24,13 +24,13 @@ public class CreateTaskDto {
 
     private TaskStatus status;
 
-    //todo: лучше использовать наименование authorId, аналогично для assignee и viewers
+    //todo - DONE - лучше использовать наименование authorId, аналогично для assignee и viewers
     @NotNull(message = "author is required")
-    private Long author;
+    private Long authorId;
 
-    private Long assignee;
+    private Long assigneeId;
 
-    private List<Long> viewers;
+    private List<Long> viewersIds;
 
     private LocalDate deadline;
 

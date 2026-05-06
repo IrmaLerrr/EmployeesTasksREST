@@ -3,6 +3,7 @@ package org.irmalerrr.employeeservice.service;
 import lombok.RequiredArgsConstructor;
 import org.irmalerrr.employeeservice.dto.CreateTaskDto;
 import org.irmalerrr.employeeservice.dto.TaskDto;
+import org.irmalerrr.employeeservice.entity.Employee;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
 import org.irmalerrr.employeeservice.exceptions.TaskNotFoundException;
 import org.irmalerrr.employeeservice.mapper.TaskMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
+
 
     /**
      * Выдает задачу по ее id
@@ -64,9 +66,14 @@ public class TaskService {
     public TaskDto updateTask(Long id, CreateTaskDto dto) {
         Task entity = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
-        //todo: дважды использован маппер. видимо следующая строка лишняя
-        mapper.updateEntity(entity, dto);
-        entity = taskRepository.save(mapper.updateEntity(entity, dto));
+        //todo - DONE - дважды использован маппер. видимо следующая строка лишняя
+        entity = mapper.updateEntity(entity, dto);
+        entity.getViewers().clear();
+        if (!dto.getViewersIds().isEmpty()) {
+            List<Employee> newViewers = mapper.getEmployeesFromDto(dto.getViewersIds());
+            entity.getViewers().addAll(newViewers);
+        }
+        entity = taskRepository.save(entity);
         return mapper.toDto(entity);
     }
 

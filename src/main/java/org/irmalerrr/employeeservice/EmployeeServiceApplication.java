@@ -1,13 +1,12 @@
 package org.irmalerrr.employeeservice;//todo - DONE - пакеты стоит формировать по такой формуле: [домен].[компания].[проект].[слой(сервис, репозиторий, корнтроллер и тд)] + у тебя микросервис по управлению сотрудниками(employeeservice), таски это как доп сущность
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication //todo: эту аннотацию лучше расположить непосредственно над классом для читаемости
-@Slf4j //todo: здесь уже не нужна аннотация получается
+//todo - DONE - здесь уже не нужна аннотация @Slf4j получается
 @EnableJpaAuditing
+@SpringBootApplication //todo - DONE - эту аннотацию лучше расположить непосредственно над классом для читаемости
 public class EmployeeServiceApplication { //todo - DONE - называем Названиесервисa+Application
     public static void main(String[] args) {
         SpringApplication.run(EmployeeServiceApplication.class, args);

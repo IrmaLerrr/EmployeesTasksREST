@@ -15,19 +15,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-    //todo: убрать закомментированную строку
-//    private final DtoMapper mapper;
+    //todo - DONE - убрать закомментированную строку
     // todo - DONE - Посмотри аннатацию @RequiredArgsConstructor
 
-    @GetMapping(path = "{id}") //todo: здесь и ниже тоже как будто не хватает символа /
+    @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже тоже как будто не хватает символа /
     // todo - DONE - ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
 
     @GetMapping
-    //todo: в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
-    public ResponseEntity<List<TaskDto>> getAllTask() {
+    //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
+    public ResponseEntity<List<TaskDto>> getAllTasks() {
         return ResponseEntity.ok().body(taskService.getAllTasks());
     }
 
@@ -36,13 +35,13 @@ public class TaskController {
         return ResponseEntity.ok().body(taskService.createTask(taskReq));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable("id") Long id, @Valid @RequestBody CreateTaskDto taskReq) {
         return ResponseEntity.ok().body(taskService.updateTask(id, taskReq));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<TaskDto> deleteTask(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable("id") Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
