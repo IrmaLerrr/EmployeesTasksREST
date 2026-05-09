@@ -18,6 +18,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = EmployeeMapper.class)
 @RequiredArgsConstructor
 public abstract class TaskMapper {
+    //todo: в маппер не нужно внедрять зависимость от сервиса. в маппер нужно подавать объект, который будет мапиться, а его получение должно быть в самом сервисе
     @Autowired
     protected EmployeeService employeeService;
 
@@ -28,6 +29,7 @@ public abstract class TaskMapper {
     //todo - DONE - этот метод при наличии метода маппинга классов без листов (в данном случае toDto()) использует его в имплементации, указывать маппинги не нужно
     public abstract List<TaskDto> toDtoList(List<Task> task);
 
+    //todo: в аргументы этого метода нужно подать author, assignee и viewers в качестве аргументов
     @Mapping(target = "author", expression = "java(getEmployeeFromDto(dto.getAuthorId()))")
     @Mapping(target = "assignee", expression = "java(getEmployeeFromDto(dto.getAssigneeId()))")
     @Mapping(target = "viewers", expression = "java(getEmployeesFromDto(dto.getViewersIds()))")
@@ -36,6 +38,7 @@ public abstract class TaskMapper {
     @Mapping(target = "updatedAt", ignore = true)
     public abstract Task toEntity(CreateTaskDto dto);
 
+    //todo: в аргументы этого метода нужно подать author, assignee и viewers в качестве аргументов
     @Mapping(target = "author", expression = "java(getEmployeeFromDto(dto.getAuthorId()))")
     @Mapping(target = "assignee", expression = "java(getEmployeeFromDto(dto.getAssigneeId()))")
     @Mapping(target = "viewers", ignore = true)

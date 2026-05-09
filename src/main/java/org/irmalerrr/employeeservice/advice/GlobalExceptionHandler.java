@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+//todo: не увидела в этом классе обработку кастомных исключений, нужно сюда добавить
 @RestControllerAdvice
 public class GlobalExceptionHandler  {
 //todo - DONE - коменты убираем

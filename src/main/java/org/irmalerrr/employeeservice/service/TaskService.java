@@ -68,6 +68,8 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException(id));
         //todo - DONE - дважды использован маппер. видимо следующая строка лишняя
         entity = mapper.updateEntity(entity, dto);
+        //todo: если в CreateTaskDto.viewersIds приходит полный список текущих id наблюдателей, то нужно часть удалить, часть добавить, те, что уже были добавлены не перезаписывать
+        //todo: получение соответствующих viewers должно быть сделано в сервисе (можно эту логику вынести в отдельный метод)
         entity.getViewers().clear();
         if (!dto.getViewersIds().isEmpty()) {
             List<Employee> newViewers = mapper.getEmployeesFromDto(dto.getViewersIds());
