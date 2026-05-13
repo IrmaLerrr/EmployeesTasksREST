@@ -4,18 +4,20 @@ import lombok.RequiredArgsConstructor;
 import org.irmalerrr.employeeservice.dto.CreateTaskDto;
 import org.irmalerrr.employeeservice.dto.TaskDto;
 import org.irmalerrr.employeeservice.entity.Employee;
+import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
 import org.irmalerrr.employeeservice.exceptions.TaskNotFoundException;
 import org.irmalerrr.employeeservice.mapper.TaskMapper;
-import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
+    private final EmployeeService employeeService;
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
 
@@ -50,31 +52,34 @@ public class TaskService {
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
     public TaskDto createTask(CreateTaskDto dto) {
-        Task entity = taskRepository.save(mapper.toEntity(dto));
+        Employee author = getEmployeeFromDto(dto.getAuthorId());
+        Employee assignee = getEmployeeFromDto(dto.getAssigneeId());
+        List<Employee> viewers = getEmployeesFromDto(dto.getViewersIds());
+        Task entity = taskRepository.save(mapper.toEntity(dto, author, assignee, viewers));
         return mapper.toDto(entity);
     }
 
     /**
      * Обновляет задачу по id на основе полученных данных
      *
-     * @param id - id задачи, которую нужно обновить
+     * @param id  - id задачи, которую нужно обновить
      * @param dto - данные задачи для обновления
      * @return TaskDto - DTO объект с данными задачи
-     * @throws TaskNotFoundException если таска с указанным id не найдена
+     * @throws TaskNotFoundException     если таска с указанным id не найдена
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
     public TaskDto updateTask(Long id, CreateTaskDto dto) {
         Task entity = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
+        Employee author = getEmployeeFromDto(dto.getAuthorId());
+        Employee assignee = getEmployeeFromDto(dto.getAssigneeId());
+        List<Employee> viewers = getEmployeesFromDto(dto.getViewersIds());
+
         //todo - DONE - дважды использован маппер. видимо следующая строка лишняя
-        entity = mapper.updateEntity(entity, dto);
-        //todo: если в CreateTaskDto.viewersIds приходит полный список текущих id наблюдателей, то нужно часть удалить, часть добавить, те, что уже были добавлены не перезаписывать
-        //todo: получение соответствующих viewers должно быть сделано в сервисе (можно эту логику вынести в отдельный метод)
-        entity.getViewers().clear();
-        if (!dto.getViewersIds().isEmpty()) {
-            List<Employee> newViewers = mapper.getEmployeesFromDto(dto.getViewersIds());
-            entity.getViewers().addAll(newViewers);
-        }
+        entity = mapper.updateEntity(entity, dto, author, assignee);
+        //todo - DONE - если в CreateTaskDto.viewersIds приходит полный список текущих id наблюдателей, то нужно часть удалить, часть добавить, те, что уже были добавлены не перезаписывать
+        //todo - DONE - получение соответствующих viewers должно быть сделано в сервисе (можно эту логику вынести в отдельный метод)
+        updateViewers(entity, viewers);
         entity = taskRepository.save(entity);
         return mapper.toDto(entity);
     }
@@ -89,6 +94,27 @@ public class TaskService {
         Task target = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
         taskRepository.delete(target);
+    }
+
+    private Employee getEmployeeFromDto(Long id) {
+        if (id == null) return null;
+        return employeeService.getEmployee(id);
+    }
+
+    private List<Employee> getEmployeesFromDto(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) return new ArrayList<>();
+        return ids.stream()
+                .map(employeeService::getEmployee).toList();
+    }
+
+    private void updateViewers(Task entity, List<Employee> targetViewers) {
+        List<Employee> sourceViewers = entity.getViewers();
+
+        sourceViewers.removeIf(viewer -> !targetViewers.contains(viewer));
+
+        targetViewers.stream()
+                .filter(viewer -> !sourceViewers.contains(viewer))
+                .forEach(sourceViewers::add);
     }
 }
 
