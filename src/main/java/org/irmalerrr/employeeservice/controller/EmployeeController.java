@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.irmalerrr.employeeservice.dto.CreateEmployeeDto;
@@ -37,7 +38,7 @@ public class EmployeeController {
     @Operation(summary = "createEmployee (Создание пользователя)")
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeDto employee) {
-        return ResponseEntity.ok().body(employeeService.createEmployee(employee));
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.createEmployee(employee));
     }
 
     @Operation(summary = "updateEmployee (Обновление данных пользователя)")
