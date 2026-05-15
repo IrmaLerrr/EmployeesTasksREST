@@ -16,12 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("api/employees")
 @RequiredArgsConstructor
+//todo: для name можно добавить суффикс Controller и добавить description
 @Tag(name = "Employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 //    todo - DONE - всю логику и манипуляции из контроллера гнать в сервисный слой.
 
     //todo - DONE - у тебя в каждом методе повторяется api/employees, посмотри аннотацияю @RequestMapping
+    //todo: можно без наименований методов, просто описание метода словами
     @Operation(summary = "getEmployee (Возврат пользователя, если он существует)")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже как будто не хватает символа /
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {

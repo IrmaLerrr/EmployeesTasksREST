@@ -97,12 +97,16 @@ public class TaskService {
     }
 
     private Employee getEmployeeFromDto(Long id) {
+        //todo: лучше писать тело if с фигурными скобками, даже если это одна строка (ниже тоже)
         if (id == null) return null;
+        //todo: в класс можно добавить зависимость EmployeeRepository и работать с ним, а не через EmployeeService, если нет сложной логики
         return employeeService.getEmployee(id);
     }
 
     private List<Employee> getEmployeesFromDto(List<Long> ids) {
         if (ids == null || ids.isEmpty()) return new ArrayList<>();
+        //todo: .toList() тоже на новую строку, либо оставить все на одной строке
+        //todo: здесь будет запрос в БД через репозиторий для каждого элемента массива. лучше переделать с использованием findAll()
         return ids.stream()
                 .map(employeeService::getEmployee).toList();
     }
