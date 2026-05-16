@@ -31,11 +31,6 @@ public class EmployeeService {
         return mapper.toDto(entity);
     }
 
-    public Employee getEmployee(Long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
-    }
-
     /**
      * Выдает список всех сотрудников.
      *

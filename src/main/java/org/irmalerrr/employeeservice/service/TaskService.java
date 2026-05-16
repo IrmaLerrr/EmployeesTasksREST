@@ -8,6 +8,7 @@ import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;
 import org.irmalerrr.employeeservice.exceptions.TaskNotFoundException;
 import org.irmalerrr.employeeservice.mapper.TaskMapper;
+import org.irmalerrr.employeeservice.repository.EmployeeRepository;
 import org.irmalerrr.employeeservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TaskService {
-    private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
 
@@ -97,18 +98,21 @@ public class TaskService {
     }
 
     private Employee getEmployeeFromDto(Long id) {
-        //todo: лучше писать тело if с фигурными скобками, даже если это одна строка (ниже тоже)
-        if (id == null) return null;
-        //todo: в класс можно добавить зависимость EmployeeRepository и работать с ним, а не через EmployeeService, если нет сложной логики
-        return employeeService.getEmployee(id);
+        //todo - DONE - лучше писать тело if с фигурными скобками, даже если это одна строка (ниже тоже)
+        if (id == null) {
+            return null;
+        }
+        //todo - DONE - в класс можно добавить зависимость EmployeeRepository и работать с ним, а не через EmployeeService, если нет сложной логики
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     private List<Employee> getEmployeesFromDto(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) return new ArrayList<>();
-        //todo: .toList() тоже на новую строку, либо оставить все на одной строке
-        //todo: здесь будет запрос в БД через репозиторий для каждого элемента массива. лучше переделать с использованием findAll()
-        return ids.stream()
-                .map(employeeService::getEmployee).toList();
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        //todo - DONE - .toList() тоже на новую строку, либо оставить все на одной строке, ответ: .toList() убран при замене на findAll()
+        //todo - DONE - здесь будет запрос в БД через репозиторий для каждого элемента массива. лучше переделать с использованием findAll()
+        return employeeRepository.findAllById(ids);
     }
 
     private void updateViewers(Task entity, List<Employee> targetViewers) {
