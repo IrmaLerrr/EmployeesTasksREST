@@ -31,11 +31,8 @@ public abstract class TaskMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    //todo: если не слишком длинная строка (помещается на экран), то можно оставить в одной строке. аналогично ниже
-    public abstract Task toEntity(CreateTaskDto dto,
-                                  Employee author,
-                                  Employee assignee,
-                                  List<Employee> viewers);
+    //todo - DONE - если не слишком длинная строка (помещается на экран), то можно оставить в одной строке. аналогично ниже
+    public abstract Task toEntity(CreateTaskDto dto, Employee author, Employee assignee, List<Employee> viewers);
 
     //todo - DONE - в аргументы этого метода нужно подать author, assignee и viewers в качестве аргументов
     @Mapping(target = "author", source = "author")
@@ -44,10 +41,7 @@ public abstract class TaskMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    public abstract Task updateEntity(@MappingTarget Task entity,
-                                      CreateTaskDto dto,
-                                      Employee author,
-                                      Employee assignee);
+    public abstract Task updateEntity(@MappingTarget Task entity, CreateTaskDto dto, Employee author, Employee assignee);
 
     //todo - DONE - логику и получение информации из БД через репозиторий лучше не добавлять в маппер. маппер только мапит из одного состояния в другое
     //todo - DONE - здесь пожалуй лучше будет найти соответствующие Employee в рамках сервиса, а в методы маппера передавать дополнительные аргументы

@@ -1,6 +1,7 @@
 package org.irmalerrr.employeeservice.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,38 +15,39 @@ import java.util.List;
 @RestController
 @RequestMapping("api/tasks")
 @RequiredArgsConstructor
+@Tag(name = "TaskController", description = "Контроллер для управления задачами")
 public class TaskController {
     private final TaskService taskService;
     //todo - DONE - убрать закомментированную строку
     // todo - DONE - Посмотри аннатацию @RequiredArgsConstructor
 
-    @Operation(summary = "getTask (Возврат задачи, если она существует)")
+    @Operation(summary = "Возврат задачи, если она существует")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже тоже как будто не хватает символа /
     // todo - DONE - ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
 
-    @Operation(summary = "getAllTasks (Возврат всех задач)")
+    @Operation(summary = "Возврат всех задач")
     @GetMapping
     //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<TaskDto>> getAllTasks() {
         return ResponseEntity.ok().body(taskService.getAllTasks());
     }
 
-    @Operation(summary = "createTask (Создание задачи)")
+    @Operation(summary = "Создание задачи")
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskDto taskReq) {
         return ResponseEntity.ok().body(taskService.createTask(taskReq));
     }
 
-    @Operation(summary = "updateTask (Обновление данных задачи)")
+    @Operation(summary = "Обновление данных задачи")
     @PutMapping("/{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable("id") Long id, @Valid @RequestBody CreateTaskDto taskReq) {
         return ResponseEntity.ok().body(taskService.updateTask(id, taskReq));
     }
 
-    @Operation(summary = "deleteTask (Удаление задачи)")
+    @Operation(summary = "Удаление задачи")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable("id") Long id) {
         taskService.deleteTask(id);
