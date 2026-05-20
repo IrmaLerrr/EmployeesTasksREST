@@ -22,14 +22,14 @@ public class TaskController {
     //todo - DONE - убрать закомментированную строку
     // todo - DONE - Посмотри аннатацию @RequiredArgsConstructor
 
-    @Operation(summary = "Возврат задачи, если она существует")
+    @Operation(summary = "Получение задачи по идентификатору")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже тоже как будто не хватает символа /
     // todo - DONE - ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
 
-    @Operation(summary = "Возврат всех задач")
+    @Operation(summary = "Получение всех задач")
     @GetMapping
     //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<TaskDto>> getAllTasks() {

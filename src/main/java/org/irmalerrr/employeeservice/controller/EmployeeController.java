@@ -24,14 +24,14 @@ public class EmployeeController {
 
     //todo - DONE - у тебя в каждом методе повторяется api/employees, посмотри аннотацияю @RequestMapping
     //todo - DONE - можно без наименований методов, просто описание метода словами
-    @Operation(summary = "Возврат пользователя, если он существует")
+    @Operation(summary = "Получение пользователя по идентификатору")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже как будто не хватает символа /
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(employeeService.getEmployeeDto(id));
     }
 
     @GetMapping
-    @Operation(summary = "Возврат всех пользователей")
+    @Operation(summary = "Получение всех пользователей")
     //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         return ResponseEntity.ok().body(employeeService.getAllEmployeesDto());
