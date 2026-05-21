@@ -17,11 +17,11 @@ public abstract class EmployeeMapper {
 
     public abstract EmployeeDto toDto(Employee employee);
 
+    public abstract List<EmployeeDto> toDtoList(List<Employee> employees);
+
     public abstract EmployeeShortDto toShortDto(Employee employee);
 
     public abstract List<EmployeeShortDto> toShortDtoList(List<Employee> employee);
-
-    public abstract List<EmployeeDto> toDtoList(List<Employee> employees);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

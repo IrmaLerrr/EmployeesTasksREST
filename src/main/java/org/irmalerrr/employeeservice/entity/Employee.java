@@ -1,10 +1,8 @@
 package org.irmalerrr.employeeservice.entity; //todo - DONE - лучше всего вместо model сделай entity
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,6 +12,7 @@ import java.util.List;
 //todo - DONE - а зачем @JsonPropertyOrder({"id", "title", "description", "status", "author"}) ? - для красоты вывода джсона, перенесла в дто
 @Getter
 @Setter
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity //todo - DONE - @Entity и @Table пишут прям над классом, по ближе к названию для читаемости. добавь @Table с названием таблицы

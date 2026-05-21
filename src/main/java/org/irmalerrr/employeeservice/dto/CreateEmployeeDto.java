@@ -1,6 +1,8 @@
 package org.irmalerrr.employeeservice.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -8,6 +10,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEmployeeDto {
@@ -28,7 +31,7 @@ public class CreateEmployeeDto {
     private BigDecimal salaryGross;
 
     @Pattern(
-            regexp = "^(\\+7|8)[0-9]{10}$",
+            regexp = "^(\\+7|8)\\d{10}$",
             message = "Invalid phone number format"
     )
     private String phoneNumber; //todo - DONE - валидация
