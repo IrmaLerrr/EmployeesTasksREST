@@ -42,10 +42,11 @@ public class Task extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "task_viewers",  // новая таблица
+            name = "task_viewers",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
+    @Builder.Default
     private List<Employee> viewers = new ArrayList<>();
 
 }

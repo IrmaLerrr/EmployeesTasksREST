@@ -2,6 +2,7 @@ package org.irmalerrr.employeeservice.entity; //todo - DONE - лучше все�
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity //todo - DONE - @Entity и @Table пишут прям над классом, по ближе к названию для читаемости. добавь @Table с названием таблицы
@@ -39,12 +41,15 @@ public class Employee extends BaseEntity {
     private String position;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Task> createdTasks = new ArrayList<>(); //todo - DONE - кемел кейс юзаем
 
     @OneToMany(mappedBy = "assignee", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Task> assignedTasks = new ArrayList<>(); //todo - DONE - кемел кейс юзаем
 
     // todo - DONE - сделать связь мени ту мени с наблюдателями, через интерсект таблица
     @ManyToMany(mappedBy = "viewers")
+    @Builder.Default
     private List<Task> viewedTasks = new ArrayList<>();
 }

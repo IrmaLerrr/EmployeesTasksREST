@@ -2,10 +2,8 @@ package org.irmalerrr.employeeservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.irmalerrr.employeeservice.enums.TaskStatus;
 
 import java.time.LocalDate;
@@ -14,6 +12,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTaskDto {

@@ -6,10 +6,11 @@ import org.irmalerrr.employeeservice.dto.EmployeeShortDto;
 import org.irmalerrr.employeeservice.entity.Employee;
 import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.mapper.EmployeeMapper;
+import org.irmalerrr.employeeservice.mapper.EmployeeMapperImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,9 +18,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest(classes = {EmployeeMapperImpl.class})
 class EmployeeMapperTests {
     @Autowired
-    private EmployeeMapper employeeMapper = Mappers.getMapper(EmployeeMapper.class);
+    private EmployeeMapper employeeMapper;
 
     private Employee createEmployee(Long id) {
         Task task = Task.builder().id(1L).title("title").build();
@@ -140,21 +142,20 @@ class EmployeeMapperTests {
         assertThat(employee.getPosition()).isEqualTo(employeeDto.getPosition());
         assertThat(employee.getCreatedAt()).isNull();
         assertThat(employee.getUpdatedAt()).isNull();
-        assertThat(employee.getAssignedTasks()).isNull();
-        assertThat(employee.getCreatedTasks()).isNull();
-        assertThat(employee.getViewedTasks()).isNull();
+        assertThat(employee.getAssignedTasks()).isEmpty();
+        assertThat(employee.getCreatedTasks()).isEmpty();
+        assertThat(employee.getViewedTasks()).isEmpty();
     }
 
     @Test
-    @DisplayName("updateEntity should update CreateEmployeeDto to Employee")
-    void updateEntity_ShouldUpdateCreateEmployeeDtoToEmployee() {
+    @DisplayName("updateEntity should update existing Employee from CreateEmployeeDto")
+    void updateEntity_ShouldUpdateEmployeeFromCreateEmployeeDto() {
         CreateEmployeeDto employeeDto = createCreateEmployeeDto();
-        employeeDto.setFirstName("otherFirstName");
-        employeeDto.setLastName("otherLastName");
-        employeeDto.setEmail("otherTest@test.test");
-        employeeDto.setSalaryGross(BigDecimal.valueOf(20000));
-        employeeDto.setPhoneNumber("+70987654321");
-        employeeDto.setPosition("otherPosition");
+        employeeDto.setFirstName("otherFirstName")
+                .setLastName("otherLastName")
+                .setEmail("otherTest@test.test")
+                .setSalaryGross(BigDecimal.valueOf(20000))
+                .setPosition("otherPosition");
 
         Employee employee = createEmployee(1L);
         Employee updatedEmployee = employeeMapper.updateEntity(employee, employeeDto);
