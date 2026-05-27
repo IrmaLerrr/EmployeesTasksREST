@@ -1,7 +1,6 @@
-package org.irmalerrr.employeeservice;
+package org.irmalerrr.employeeservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.irmalerrr.employeeservice.controller.EmployeeController;
 import org.irmalerrr.employeeservice.dto.CreateEmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeDto;
 import org.irmalerrr.employeeservice.service.EmployeeService;
@@ -57,7 +56,7 @@ class EmployeeControllerTests {
     @DisplayName("GET /api/employees/1 returns 200 OK and a valid JSON")
     void getEmployee_returnsValidResponseEntity() throws Exception {
         EmployeeDto mockEmp = createEmployeeDto(1L, "first");
-        when(employeeService.getEmployeeDto(1L)).thenReturn(mockEmp);
+        when(employeeService.getEmployee(1L)).thenReturn(mockEmp);
 
         mockMvc.perform(get("/api/employees/{id}", 1L))
                 .andExpect(status().isOk())
@@ -77,7 +76,7 @@ class EmployeeControllerTests {
     void getEmployees_returnsValidResponseEntity() throws Exception {
         EmployeeDto mockEmp1 = createEmployeeDto(1L, "first");
         EmployeeDto mockEmp2 = createEmployeeDto(2L, "second");
-        when(employeeService.getAllEmployeesDto()).thenReturn(List.of(mockEmp1, mockEmp2));
+        when(employeeService.getAllEmployees()).thenReturn(List.of(mockEmp1, mockEmp2));
 
         mockMvc.perform(get("/api/employees"))
                 .andExpect(status().isOk())

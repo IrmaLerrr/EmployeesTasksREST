@@ -1,6 +1,5 @@
-package org.irmalerrr.employeeservice;
+package org.irmalerrr.employeeservice.controller;
 
-import org.irmalerrr.employeeservice.controller.HealthController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

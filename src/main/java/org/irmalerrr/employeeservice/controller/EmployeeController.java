@@ -27,14 +27,14 @@ public class EmployeeController {
     @Operation(summary = "Получение пользователя по идентификатору")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже как будто не хватает символа /
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(employeeService.getEmployeeDto(id));
+        return ResponseEntity.ok().body(employeeService.getEmployee(id));
     }
 
     @GetMapping
     @Operation(summary = "Получение всех пользователей")
     //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
-        return ResponseEntity.ok().body(employeeService.getAllEmployeesDto());
+        return ResponseEntity.ok().body(employeeService.getAllEmployees());
     }
 
     @Operation(summary = "Создание пользователя")

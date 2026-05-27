@@ -112,7 +112,9 @@ public class TaskService {
         }
         //todo - DONE - .toList() тоже на новую строку, либо оставить все на одной строке, ответ: .toList() убран при замене на findAll()
         //todo - DONE - здесь будет запрос в БД через репозиторий для каждого элемента массива. лучше переделать с использованием findAll()
-        return employeeRepository.findAllById(ids);
+        List<Employee> employees = employeeRepository.findAllById(ids);
+        if (ids.size() != employees.size()) throw new EmployeeNotFoundException();
+        return employees;
     }
 
     private void updateViewers(Task entity, List<Employee> targetViewers) {

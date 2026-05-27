@@ -1,12 +1,10 @@
-package org.irmalerrr.employeeservice;
+package org.irmalerrr.employeeservice.mapper;
 
 import org.irmalerrr.employeeservice.dto.CreateEmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeDto;
 import org.irmalerrr.employeeservice.dto.EmployeeShortDto;
 import org.irmalerrr.employeeservice.entity.Employee;
 import org.irmalerrr.employeeservice.entity.Task;
-import org.irmalerrr.employeeservice.mapper.EmployeeMapper;
-import org.irmalerrr.employeeservice.mapper.EmployeeMapperImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

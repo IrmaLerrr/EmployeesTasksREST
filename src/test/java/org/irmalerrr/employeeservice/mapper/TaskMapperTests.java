@@ -1,13 +1,10 @@
-package org.irmalerrr.employeeservice;
+package org.irmalerrr.employeeservice.mapper;
 
 import org.irmalerrr.employeeservice.dto.CreateTaskDto;
 import org.irmalerrr.employeeservice.dto.TaskDto;
 import org.irmalerrr.employeeservice.entity.Employee;
 import org.irmalerrr.employeeservice.entity.Task;
 import org.irmalerrr.employeeservice.enums.TaskStatus;
-import org.irmalerrr.employeeservice.mapper.EmployeeMapperImpl;
-import org.irmalerrr.employeeservice.mapper.TaskMapper;
-import org.irmalerrr.employeeservice.mapper.TaskMapperImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

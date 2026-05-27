@@ -1,6 +1,7 @@
 package org.irmalerrr.employeeservice.dto;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.irmalerrr.employeeservice.enums.TaskStatus;
 
 import java.time.LocalDate;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {

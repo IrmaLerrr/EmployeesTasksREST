@@ -1,7 +1,6 @@
-package org.irmalerrr.employeeservice;
+package org.irmalerrr.employeeservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.irmalerrr.employeeservice.controller.TaskController;
 import org.irmalerrr.employeeservice.dto.*;
 import org.irmalerrr.employeeservice.enums.TaskStatus;
 import org.irmalerrr.employeeservice.exceptions.EmployeeNotFoundException;

@@ -25,7 +25,7 @@ public class EmployeeService {
      * @return EmployeeDto - DTO объект с данными сотрудника
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
-    public EmployeeDto getEmployeeDto(Long id) {
+    public EmployeeDto getEmployee(Long id) {
         Employee entity = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id)); // todo - DONE - сделать собственный эксепшен
         return mapper.toDto(entity);
@@ -36,7 +36,7 @@ public class EmployeeService {
      *
      * @return List<EmployeeDto> - список DTO объектов с данными сотрудников
      */
-    public List<EmployeeDto> getAllEmployeesDto() {
+    public List<EmployeeDto> getAllEmployees() {
         return mapper.toDtoList(employeeRepository.findAll());
     }
 
