@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //todo - DONE -  у тебя есть 3 повторяющийхся поля в классах. можно сделать абстрактный класс BaseEntity и отнаследоваться)
+    private Long id;
 
     // todo - DONE - @CreatedDate  @LastModifiedDate
     @CreatedDate

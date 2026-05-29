@@ -32,7 +32,7 @@ public class TaskService {
      */
     public TaskDto getTask(Long id) {
         Task entity = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException(id)); //todo - DONE - текст в константы (убран в эксепшн)
+                .orElseThrow(() -> new TaskNotFoundException(id));
         return mapper.toDto(entity);
     }
 

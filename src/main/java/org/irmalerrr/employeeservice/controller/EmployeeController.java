@@ -19,11 +19,9 @@ import java.util.List;
 //todo - DONE - для name можно добавить суффикс Controller и добавить description
 @Tag(name = "EmployeeController", description = "Контроллер для управления сотрудниками")
 public class EmployeeController {
-    private final EmployeeService employeeService;
-//    todo - DONE - всю логику и манипуляции из контроллера гнать в сервисный слой.
 
-    //todo - DONE - у тебя в каждом методе повторяется api/employees, посмотри аннотацияю @RequestMapping
-    //todo - DONE - можно без наименований методов, просто описание метода словами
+    private final EmployeeService employeeService;
+
     @Operation(summary = "Получение пользователя по идентификатору")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже как будто не хватает символа /
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {

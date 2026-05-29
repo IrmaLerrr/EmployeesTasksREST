@@ -7,7 +7,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//todo - DONE - EmployeeShortDTO
 public class EmployeeShortDto {
     private Long id;
     private String firstName;

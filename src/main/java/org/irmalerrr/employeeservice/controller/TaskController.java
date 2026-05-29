@@ -19,12 +19,9 @@ import java.util.List;
 @Tag(name = "TaskController", description = "Контроллер для управления задачами")
 public class TaskController {
     private final TaskService taskService;
-    //todo - DONE - убрать закомментированную строку
-    // todo - DONE - Посмотри аннатацию @RequiredArgsConstructor
 
     @Operation(summary = "Получение задачи по идентификатору")
     @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже тоже как будто не хватает символа /
-    // todo - DONE - ResponseEntity<?> не красиво возвращать) лучше класс обьекта укажи который возвращается
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }

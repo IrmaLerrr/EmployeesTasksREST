@@ -28,9 +28,8 @@ public class Employee extends BaseEntity {
     private String lastName;
 
     @Column(name = "email")
-    private String email; //todo - DONE - для ентити лучше на всех полях указать поле на которое ссылаемся в таблице(кроме айди)
+    private String email;
 
-    //todo - DONE - зп может быть с копейкам) запомни все что касается денег это BigDecimal)
     @Column(name = "salary_gross")
     private BigDecimal salaryGross;
 
@@ -42,11 +41,11 @@ public class Employee extends BaseEntity {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<Task> createdTasks = new ArrayList<>(); //todo - DONE - кемел кейс юзаем
+    private List<Task> createdTasks = new ArrayList<>();
 
     @OneToMany(mappedBy = "assignee", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<Task> assignedTasks = new ArrayList<>(); //todo - DONE - кемел кейс юзаем
+    private List<Task> assignedTasks = new ArrayList<>();
 
     // todo - DONE - сделать связь мени ту мени с наблюдателями, через интерсект таблица
     @ManyToMany(mappedBy = "viewers")

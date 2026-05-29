@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 //todo - DONE - не увидела в этом классе обработку кастомных исключений, нужно сюда добавить, ответ: кастомные исключения наследуются от NoSuchElementException, обработка которого есть
 @RestControllerAdvice
 public class GlobalExceptionHandler  {
-//todo - DONE - коменты убираем
 
     /**
      * Обрабатывает ошибки валидации (например, @Valid).

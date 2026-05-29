@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEmployeeDto {
-    //todo - DONE - EmployeeDto, приписки Request и Response особо не нужны, чтоб понятнее для чего эта ДТО можно указывать действие в названии - CreateEmployeeDto. или UpdateEmployeeDto(в случае если набор полей разный для создания и редакирования)
+
     @NotBlank(message = "firstName is required")
     private String firstName;
 
@@ -36,7 +36,7 @@ public class CreateEmployeeDto {
             regexp = "^(\\+7|8)\\d{10}$",
             message = "Invalid phone number format"
     )
-    private String phoneNumber; //todo - DONE - валидация
+    private String phoneNumber;
 
     @NotBlank(message = "position is required")
     private String position;
