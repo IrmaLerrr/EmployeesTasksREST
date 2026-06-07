@@ -76,10 +76,7 @@ public class TaskService {
         Employee assignee = getEmployeeFromDto(dto.getAssigneeId());
         List<Employee> viewers = getEmployeesFromDto(dto.getViewersIds());
 
-        //todo - DONE - дважды использован маппер. видимо следующая строка лишняя
         entity = mapper.updateEntity(entity, dto, author, assignee);
-        //todo - DONE - если в CreateTaskDto.viewersIds приходит полный список текущих id наблюдателей, то нужно часть удалить, часть добавить, те, что уже были добавлены не перезаписывать
-        //todo - DONE - получение соответствующих viewers должно быть сделано в сервисе (можно эту логику вынести в отдельный метод)
         updateViewers(entity, viewers);
         entity = taskRepository.save(entity);
         return mapper.toDto(entity);
@@ -98,11 +95,9 @@ public class TaskService {
     }
 
     private Employee getEmployeeFromDto(Long id) {
-        //todo - DONE - лучше писать тело if с фигурными скобками, даже если это одна строка (ниже тоже)
         if (id == null) {
             return null;
         }
-        //todo - DONE - в класс можно добавить зависимость EmployeeRepository и работать с ним, а не через EmployeeService, если нет сложной логики
         return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
@@ -110,8 +105,6 @@ public class TaskService {
         if (ids == null || ids.isEmpty()) {
             return new ArrayList<>();
         }
-        //todo - DONE - .toList() тоже на новую строку, либо оставить все на одной строке, ответ: .toList() убран при замене на findAll()
-        //todo - DONE - здесь будет запрос в БД через репозиторий для каждого элемента массива. лучше переделать с использованием findAll()
         List<Employee> employees = employeeRepository.findAllById(ids);
         if (ids.size() != employees.size()) throw new EmployeeNotFoundException();
         return employees;

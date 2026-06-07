@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-//todo - DONE - не увидела в этом классе обработку кастомных исключений, нужно сюда добавить, ответ: кастомные исключения наследуются от NoSuchElementException, обработка которого есть
 @RestControllerAdvice
 public class GlobalExceptionHandler  {
 
@@ -42,7 +41,7 @@ public class GlobalExceptionHandler  {
                 .setCode(e.getStatusCode().value())
                 .setTimestamp(LocalDateTime.now());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body); // todo - DONE - можно использовать билдер) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
     /**

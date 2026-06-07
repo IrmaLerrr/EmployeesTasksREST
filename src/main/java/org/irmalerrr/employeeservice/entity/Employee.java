@@ -1,4 +1,4 @@
-package org.irmalerrr.employeeservice.entity; //todo - DONE - лучше всего вместо model сделай entity
+package org.irmalerrr.employeeservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,15 +9,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-//todo - DONE - @Data содердит много чего в себе, тебе все нужны методы которые генерятся этой аннатацией? лучше вешать только те аннатации которые тебе нужны для текущей реализации)
-//todo - DONE - а зачем @JsonPropertyOrder({"id", "title", "description", "status", "author"}) ? - для красоты вывода джсона, перенесла в дто
 @Getter
 @Setter
 @SuperBuilder
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity //todo - DONE - @Entity и @Table пишут прям над классом, по ближе к названию для читаемости. добавь @Table с названием таблицы
+@Entity
 @Table(name = "employee")
 public class Employee extends BaseEntity {
 
@@ -47,7 +45,6 @@ public class Employee extends BaseEntity {
     @Builder.Default
     private List<Task> assignedTasks = new ArrayList<>();
 
-    // todo - DONE - сделать связь мени ту мени с наблюдателями, через интерсект таблица
     @ManyToMany(mappedBy = "viewers")
     @Builder.Default
     private List<Task> viewedTasks = new ArrayList<>();

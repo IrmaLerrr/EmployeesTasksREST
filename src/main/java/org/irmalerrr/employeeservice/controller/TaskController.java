@@ -21,14 +21,13 @@ public class TaskController {
     private final TaskService taskService;
 
     @Operation(summary = "Получение задачи по идентификатору")
-    @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже тоже как будто не хватает символа /
+    @GetMapping(path = "/{id}")
     public ResponseEntity<TaskDto> getTask(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
 
     @Operation(summary = "Получение всех задач")
     @GetMapping
-    //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<TaskDto>> getAllTasks() {
         return ResponseEntity.ok().body(taskService.getAllTasks());
     }

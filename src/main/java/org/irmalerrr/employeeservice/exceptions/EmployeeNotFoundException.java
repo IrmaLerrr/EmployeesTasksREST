@@ -9,5 +9,4 @@ public class EmployeeNotFoundException extends ElementNotFoundException {
     public EmployeeNotFoundException() {
         super("Employee not found");
     }
-    //todo - DONE - неиспользуемый код
 }

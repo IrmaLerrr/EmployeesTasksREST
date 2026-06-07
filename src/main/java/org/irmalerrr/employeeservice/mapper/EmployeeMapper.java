@@ -9,9 +9,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
-//todo - DONE - Попробуй в качестве маппера mapstruct. он очень попсовый и удобный, используется наверное везде)
-//todo - DONE - у тебя тут  маппер который трудится на двух работах(работает с Тасками и имплоями). лучше разделить ответственность на 2 маппера, пусть каждый занимается своими классами)
-//todo - DONE -  вынеси мапперы из сервисов в папку mapper
 @Mapper(componentModel = "spring")
 public abstract class EmployeeMapper {
 

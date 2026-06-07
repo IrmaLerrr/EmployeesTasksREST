@@ -28,7 +28,6 @@ public class Task extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    //todo - DONE - сначала располагаем поля-обычные колонки, затем поля-связи
     @Column(name = "deadline")
     private LocalDate deadline;
 

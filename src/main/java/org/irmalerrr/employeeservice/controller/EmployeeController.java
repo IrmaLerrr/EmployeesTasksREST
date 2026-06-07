@@ -16,21 +16,19 @@ import java.util.List;
 @RestController
 @RequestMapping("api/employees")
 @RequiredArgsConstructor
-//todo - DONE - для name можно добавить суффикс Controller и добавить description
 @Tag(name = "EmployeeController", description = "Контроллер для управления сотрудниками")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
     @Operation(summary = "Получение пользователя по идентификатору")
-    @GetMapping(path = "/{id}") //todo - DONE - здесь и ниже как будто не хватает символа /
+    @GetMapping(path = "/{id}")
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(employeeService.getEmployee(id));
     }
 
     @GetMapping
     @Operation(summary = "Получение всех пользователей")
-    //todo - DONE - в наименованиях метода лучше добавлять -s на конце, если предполагается множественное число
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         return ResponseEntity.ok().body(employeeService.getAllEmployees());
     }
