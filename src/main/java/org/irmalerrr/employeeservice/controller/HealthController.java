@@ -13,5 +13,5 @@ public class HealthController {
     @GetMapping("/health")
     public String health() {
         return "200 OK";
-    }
+    }  //todo @saivanov: нужен ли вообще этот класс? в будущем мы будущем надо будет познакомиться с акутатором) и этот функционал упраздница
 }

@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreateEmployeeDto {
 
-    @NotBlank(message = "firstName is required")
+    @NotBlank(message = "firstName is required") //todo @saivanov: дефолтное сообщение не понравилось?)
     private String firstName;
 
     @NotBlank(message = "lastName is required")

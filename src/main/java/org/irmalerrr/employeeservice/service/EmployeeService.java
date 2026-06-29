@@ -74,6 +74,6 @@ public class EmployeeService {
     public void deleteEmployee(Long id) {
         Employee target = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
-        employeeRepository.delete(target);
+        employeeRepository.delete(target);  //todo @saivanov: при удалении, обрати внимание, что происходит с связанными обьектами) они тоже удаляются или остаются
     }
 }

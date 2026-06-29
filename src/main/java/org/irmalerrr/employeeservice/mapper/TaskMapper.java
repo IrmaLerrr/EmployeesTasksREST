@@ -14,9 +14,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = EmployeeMapper.class)
 @RequiredArgsConstructor
-public abstract class TaskMapper {
+public abstract class TaskMapper { //todo @saivanov: не вижу потребности делать класс abstract, мб вернем interface?
 
-    @Mapping(target = "viewers", source = "viewers")
+    @Mapping(target = "viewers", source = "viewers") //todo @saivanov: название полей вроде одинаковое, так что можно строку эту и убрать(по желанию)
     public abstract TaskDto toDto(Task task);
 
     public abstract List<TaskDto> toDtoList(List<Task> task);
@@ -26,7 +26,7 @@ public abstract class TaskMapper {
     @Mapping(target = "viewers", source = "viewers")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true) //todo @saivanov: поля с игнором выносим наверх, чтоб читаемость повысить)
     public abstract Task toEntity(CreateTaskDto dto, Employee author, Employee assignee, List<Employee> viewers);
 
     @Mapping(target = "author", source = "author")

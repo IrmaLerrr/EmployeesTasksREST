@@ -36,7 +36,7 @@ class EmployeeControllerTests {
 
     @MockitoBean
     private EmployeeService employeeService;
-
+    //todo @saivanov: структуру в тестах тоже надо соблюдать, все приватные методы вниз. вверх публичные
     private EmployeeDto createEmployeeDto(Long id, String firstName) {
         LocalDateTime now = LocalDateTime.now();
         return new EmployeeDto(

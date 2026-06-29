@@ -11,6 +11,7 @@ import org.irmalerrr.employeeservice.mapper.TaskMapper;
 import org.irmalerrr.employeeservice.repository.EmployeeRepository;
 import org.irmalerrr.employeeservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TaskService {
     private final EmployeeRepository employeeRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
-
+//todo @saivanov: лишний перенос тут
 
     /**
      * Выдает задачу по ее id
@@ -53,7 +54,7 @@ public class TaskService {
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
     public TaskDto createTask(CreateTaskDto dto) {
-        Employee author = getEmployeeFromDto(dto.getAuthorId());
+        Employee author = getEmployeeFromDto(dto.getAuthorId());//todo @saivanov: ты getEmployeeFromDto вызываешь 2 раза, и еще потом getEmployeesFromDto. 3 запроса в бд летит) можно оптимизировать) собрать все нужные айдишники,сделать getEmployeesFromDto, и потом из полученого списка вытащить нужные тебе обьбекты по айди)
         Employee assignee = getEmployeeFromDto(dto.getAssigneeId());
         List<Employee> viewers = getEmployeesFromDto(dto.getViewersIds());
         Task entity = taskRepository.save(mapper.toEntity(dto, author, assignee, viewers));
@@ -69,6 +70,7 @@ public class TaskService {
      * @throws TaskNotFoundException     если таска с указанным id не найдена
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
+    // Почитай про аннатацию @Transactional. для чего она нужна, как работает и когда используется.
     public TaskDto updateTask(Long id, CreateTaskDto dto) {
         Task entity = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
@@ -94,7 +96,7 @@ public class TaskService {
         taskRepository.delete(target);
     }
 
-    private Employee getEmployeeFromDto(Long id) {
+    private Employee getEmployeeFromDto(Long id) { // todo @saivanov: у тебя getEmployeeFromDto возвращает не ДТО) стоит переименовать метод
         if (id == null) {
             return null;
         }
@@ -102,18 +104,18 @@ public class TaskService {
     }
 
     private List<Employee> getEmployeesFromDto(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) {
+        if (ids == null || ids.isEmpty()) { //todo @saivanov: можно использовать CollectionUtils.isEmpty
             return new ArrayList<>();
         }
         List<Employee> employees = employeeRepository.findAllById(ids);
-        if (ids.size() != employees.size()) throw new EmployeeNotFoundException();
+        if (ids.size() != employees.size()) throw new EmployeeNotFoundException();//todo @saivanov: старайся границы IF указывать({}) и сообщение подправь "EmployeeS not found" ну и мб стоит выводить, каких именнно айди не найдено?
         return employees;
     }
 
-    private void updateViewers(Task entity, List<Employee> targetViewers) {
-        List<Employee> sourceViewers = entity.getViewers();
+    private void updateViewers(Task entity, List<Employee> targetViewers) {  //todo @saivanov:  ябы запихнул этот метод в Маппер, и сделал бы его дефолтным) как раз удобно будет тестить)
+        List<Employee> sourceViewers = entity.getViewers();//todo @saivanov: можно сразу на вход передавать список существующих вбюверов таски, чтоб обьект таски не тащить
 
-        sourceViewers.removeIf(viewer -> !targetViewers.contains(viewer));
+        sourceViewers.removeIf(viewer -> !targetViewers.contains(viewer.getId())); //todo @saivanov: а как происходит сравнение тут? если сравниваются ссылки через ==, то может быть беда. Луше сделай  Set<Long> из йдишников targetViewers, и проверяй есть ли в этом сете viewer.getId().
 
         targetViewers.stream()
                 .filter(viewer -> !sourceViewers.contains(viewer))

@@ -24,7 +24,7 @@ public class CreateTaskDto {
 
     private TaskStatus status;
 
-    @NotNull(message = "author is required")
+    @NotNull(message = "author is required") //todo @saivanov:  authorId наверное
     private Long authorId;
 
     private Long assigneeId;

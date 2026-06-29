@@ -39,7 +39,7 @@ dependencies {
 
 	testRuntimeOnly 'com.h2database:h2'
 
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final' //todo @saivanov: давай версии либ вынесем в отдельные проперти(надо блок ext сделать, и завести переменные типа mapstructVersion='1.5.5.Final')
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
 	compileOnly 'org.projectlombok:lombok'

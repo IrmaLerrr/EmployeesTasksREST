@@ -20,7 +20,7 @@ public class TaskDto {
     private String title;
     private String description;
     private TaskStatus status;
-    private EmployeeShortDto author;
+    private EmployeeShortDto author; //todo @saivanov: старайся держать структуру проекта, так: сначала обычные переменные, затем одиночные объекты, и только потом списки объектов(перепроверь остальные дто)
     private EmployeeShortDto assignee;
     private List<EmployeeShortDto> viewers;
     private LocalDateTime createdAt;
