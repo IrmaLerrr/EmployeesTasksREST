@@ -1,0 +1,13 @@
+#todo -DONE- @saivanov: насталовремя, познакомиться с docker-compose.yml. для того чтобы твой МС можно было развернуть локально любому разрабу, нужна инфроструктура(в твоем случае это БД с пользаком и паролем указанные в пропертях ниже)
+# создай файлик docker-compose.yml, при запуске которого, у тебя будет разворачиваться контейнер с постгрей)
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-latest-db
+    environment:
+      POSTGRES_DB: ${SPRING_DATASOURCE_DB:-postgres}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-123}
+    ports:
+      - "5432:5432"
