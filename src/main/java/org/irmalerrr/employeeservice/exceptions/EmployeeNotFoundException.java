@@ -6,7 +6,8 @@ public class EmployeeNotFoundException extends ElementNotFoundException {
         super("Employee not found with id: " + id);
     }
 
-    public EmployeeNotFoundException() {
-        super("Employee not found");
+    public EmployeeNotFoundException(String message) {
+        super(message);
     }
+
 }

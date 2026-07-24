@@ -21,35 +21,6 @@ class EmployeeMapperTests {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-    private Employee createEmployee(Long id) {
-        Task task = Task.builder().id(1L).title("title").build();
-        return Employee.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .email("test@test.test")
-                .salaryGross(BigDecimal.valueOf(10000))
-                .phoneNumber("+71234567890")
-                .position("position")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .createdTasks(List.of(task))
-                .assignedTasks(List.of(task))
-                .viewedTasks(List.of(task))
-                .build();
-    }
-
-    private CreateEmployeeDto createCreateEmployeeDto() {
-        return CreateEmployeeDto.builder()
-                .firstName("firstName")
-                .lastName("lastName")
-                .email("test@test.test")
-                .salaryGross(BigDecimal.valueOf(10000))
-                .phoneNumber("+71234567890")
-                .position("position")
-                .build();
-    }
-
     @Test
     @DisplayName("toDto should map Employee to EmployeeDto")
     void toDto_ShouldMapEmployeeToEmployeeDto() {
@@ -171,5 +142,34 @@ class EmployeeMapperTests {
         assertThat(updatedEmployee.getSalaryGross()).isEqualTo(employeeDto.getSalaryGross());
         assertThat(updatedEmployee.getPhoneNumber()).isEqualTo(employeeDto.getPhoneNumber());
         assertThat(updatedEmployee.getPosition()).isEqualTo(employeeDto.getPosition());
+    }
+
+    private Employee createEmployee(Long id) {
+        Task task = Task.builder().id(1L).title("title").build();
+        return Employee.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("test@test.test")
+                .salaryGross(BigDecimal.valueOf(10000))
+                .phoneNumber("+71234567890")
+                .position("position")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .createdTasks(List.of(task))
+                .assignedTasks(List.of(task))
+                .viewedTasks(List.of(task))
+                .build();
+    }
+
+    private CreateEmployeeDto createCreateEmployeeDto() {
+        return CreateEmployeeDto.builder()
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("test@test.test")
+                .salaryGross(BigDecimal.valueOf(10000))
+                .phoneNumber("+71234567890")
+                .position("position")
+                .build();
     }
 }

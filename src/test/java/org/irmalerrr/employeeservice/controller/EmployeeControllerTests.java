@@ -36,21 +36,6 @@ class EmployeeControllerTests {
 
     @MockitoBean
     private EmployeeService employeeService;
-    //todo @saivanov: структуру в тестах тоже надо соблюдать, все приватные методы вниз. вверх публичные
-    private EmployeeDto createEmployeeDto(Long id, String firstName) {
-        LocalDateTime now = LocalDateTime.now();
-        return new EmployeeDto(
-                id, firstName, "lastName", "test@test.com",
-                BigDecimal.valueOf(100_000.0), "1234567890", "position",
-                now, now
-        );
-    }
-
-    private CreateEmployeeDto createCreateEmployeeDto() {
-        return new CreateEmployeeDto(
-                "first", "lastName", "test@test.com",
-                BigDecimal.valueOf(100_000.0), "81234567890", "position");
-    }
 
     @Test
     @DisplayName("GET /api/employees/1 returns 200 OK and a valid JSON")
@@ -339,5 +324,20 @@ class EmployeeControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(mockEmp)))
                 .andExpect(status().isBadRequest());
+    }
+
+    //todo -DONE- @saivanov: структуру в тестах тоже надо соблюдать, все приватные методы вниз. вверх публичные
+    private EmployeeDto createEmployeeDto(Long id, String firstName) {
+        LocalDateTime now = LocalDateTime.now();
+        return new EmployeeDto(
+                id, firstName, "lastName", "test@test.com", "1234567890", "position",
+                now, now, BigDecimal.valueOf(100_000.0)
+                );
+    }
+
+    private CreateEmployeeDto createCreateEmployeeDto() {
+        return new CreateEmployeeDto(
+                "first", "lastName", "test@test.com",
+                 "81234567890", "position", BigDecimal.valueOf(100_000.0));
     }
 }

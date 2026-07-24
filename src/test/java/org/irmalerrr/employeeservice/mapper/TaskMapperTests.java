@@ -21,41 +21,6 @@ class TaskMapperTests {
     @Autowired
     private TaskMapper taskMapper;
 
-    private Employee createEmployee(Long id) {
-        return Employee.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .build();
-    }
-
-    private Task createTask(Long id) {
-        return Task.builder()
-                .id(id)
-                .title("title")
-                .description("description")
-                .status(TaskStatus.OPEN)
-                .deadline(LocalDate.now())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .author(createEmployee(1L))
-                .assignee(createEmployee(2L))
-                .viewers(List.of(createEmployee(3L), createEmployee(4L)))
-                .build();
-    }
-
-    private CreateTaskDto createCreateTaskDto() {
-        return CreateTaskDto.builder()
-                .title("title")
-                .description("description")
-                .status(TaskStatus.OPEN)
-                .authorId(1L)
-                .assigneeId(2L)
-                .viewersIds(List.of(3L, 4L))
-                .deadline(LocalDate.now())
-                .build();
-    }
-
     @Test
     @DisplayName("toDto should map Task to TaskDto")
     void toDto_ShouldMapTaskToTaskDto() {
@@ -158,5 +123,40 @@ class TaskMapperTests {
         assertThat(updatedTask.getAssignee()).isEqualTo(newAssignee);
 
         assertThat(updatedTask.getViewers()).isEqualTo(existingTask.getViewers());
+    }
+
+    private Employee createEmployee(Long id) {
+        return Employee.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .build();
+    }
+
+    private Task createTask(Long id) {
+        return Task.builder()
+                .id(id)
+                .title("title")
+                .description("description")
+                .status(TaskStatus.OPEN)
+                .deadline(LocalDate.now())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .author(createEmployee(1L))
+                .assignee(createEmployee(2L))
+                .viewers(List.of(createEmployee(3L), createEmployee(4L)))
+                .build();
+    }
+
+    private CreateTaskDto createCreateTaskDto() {
+        return CreateTaskDto.builder()
+                .title("title")
+                .description("description")
+                .status(TaskStatus.OPEN)
+                .authorId(1L)
+                .assigneeId(2L)
+                .viewersIds(List.of(3L, 4L))
+                .deadline(LocalDate.now())
+                .build();
     }
 }

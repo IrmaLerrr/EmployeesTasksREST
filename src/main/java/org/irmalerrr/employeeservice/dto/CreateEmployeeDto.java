@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreateEmployeeDto {
 
-    @NotBlank(message = "firstName is required") //todo @saivanov: дефолтное сообщение не понравилось?)
+    @NotBlank(message = "firstName is required") //todo -ОТВЕТ:ну прост так понятнее, можно не удалять кастомные сообщения?- @saivanov: дефолтное сообщение не понравилось?)
     private String firstName;
 
     @NotBlank(message = "lastName is required")
@@ -29,9 +29,6 @@ public class CreateEmployeeDto {
     )
     private String email;
 
-    @Min(value = 0, message = "salary can not be less than 0")
-    private BigDecimal salaryGross;
-
     @Pattern(
             regexp = "^(\\+7|8)\\d{10}$",
             message = "Invalid phone number format"
@@ -41,5 +38,6 @@ public class CreateEmployeeDto {
     @NotBlank(message = "position is required")
     private String position;
 
-
+    @Min(value = 0, message = "salary can not be less than 0")
+    private BigDecimal salaryGross;
 }

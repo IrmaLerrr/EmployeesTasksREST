@@ -37,15 +37,15 @@ public class Employee extends BaseEntity {
     @Column(name = "position", nullable = false)
     private String position;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)//todo @saivanov: лучше эту аннотацию указывать перед самим полем. т.к. она указывает на связь сущностей
     @Builder.Default
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)//todo -DONE- @saivanov: лучше эту аннотацию указывать перед самим полем. т.к. она указывает на связь сущностей
     private List<Task> createdTasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignee", fetch = FetchType.LAZY)
     @Builder.Default
+    @OneToMany(mappedBy = "assignee", fetch = FetchType.LAZY)
     private List<Task> assignedTasks = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "viewers")
     @Builder.Default
+    @ManyToMany(mappedBy = "viewers")
     private List<Task> viewedTasks = new ArrayList<>();
 }

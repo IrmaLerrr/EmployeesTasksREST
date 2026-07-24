@@ -14,7 +14,7 @@ import org.irmalerrr.employeeservice.service.TaskService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/tasks") //todo @saivanov: "/api/tasks"
+@RequestMapping("/api/tasks") //todo -DONE- @saivanov: "/api/tasks"
 @RequiredArgsConstructor
 @Tag(name = "TaskController", description = "Контроллер для управления задачами")
 public class TaskController {

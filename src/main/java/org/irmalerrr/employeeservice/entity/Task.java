@@ -24,12 +24,12 @@ public class Task extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "deadline")
+    private LocalDate deadline;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
-
-    @Column(name = "deadline")
-    private LocalDate deadline;
 
     @ManyToOne
     @JoinColumn(name = "author")
@@ -39,13 +39,13 @@ public class Task extends BaseEntity {
     @JoinColumn(name = "assignee")
     private Employee assignee;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "task_viewers",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
-    @Builder.Default
     private List<Employee> viewers = new ArrayList<>();
 
 }

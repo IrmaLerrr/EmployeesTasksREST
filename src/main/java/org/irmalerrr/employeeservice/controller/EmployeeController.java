@@ -14,7 +14,7 @@ import org.irmalerrr.employeeservice.service.EmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/employees") //todo @saivanov: "/api/employees"
+@RequestMapping("/api/employees") //todo -DONE- @saivanov: "/api/employees"
 @RequiredArgsConstructor
 @Tag(name = "EmployeeController", description = "Контроллер для управления сотрудниками")
 public class EmployeeController {

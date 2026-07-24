@@ -74,6 +74,6 @@ public class EmployeeService {
     public void deleteEmployee(Long id) {
         Employee target = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
-        employeeRepository.delete(target);  //todo @saivanov: при удалении, обрати внимание, что происходит с связанными обьектами) они тоже удаляются или остаются
+        employeeRepository.delete(target);  //todo -ОТВЕТ: удаляются связи, но не таски, но если authorId NULL нужно при апдейте нового автора добавить, в чем то это костыль - @saivanov: при удалении, обрати внимание, что происходит с связанными обьектами) они тоже удаляются или остаются
     }
 }

@@ -16,9 +16,9 @@ public class EmployeeDto {
     private String firstName;
     private String lastName;
     private String email;
-    private BigDecimal salaryGross;
     private String phoneNumber;
     private String position;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private BigDecimal salaryGross;
 }

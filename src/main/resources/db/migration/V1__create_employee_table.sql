@@ -1,10 +1,13 @@
 -- V1__create_employee_table.sql
---todo @saivanov: т.к. мы еще не в проде, давай проведем рефакторинг миграции. учитывая финальное состояние таблиц, сократи кол-во скриптов)
+--todo -DONE- @saivanov: т.к. мы еще не в проде, давай проведем рефакторинг миграции. учитывая финальное состояние таблиц, сократи кол-во скриптов)
 CREATE TABLE IF NOT EXISTS employee (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(50),
     phone_number VARCHAR(50),
-    position VARCHAR(50) NOT NULL
+    position VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    salary_gross DECIMAL(10, 2)
 );

@@ -38,23 +38,6 @@ class TaskControllerTests {
     @MockitoBean
     private TaskService taskService;
 
-    private TaskDto createTaskDto(Long id) {
-        return new TaskDto(
-                id, "title", "description", TaskStatus.OPEN,
-                new EmployeeShortDto(1L, "firstName", "lastName"),
-                new EmployeeShortDto(1L, "firstName", "lastName"),
-                List.of(new EmployeeShortDto(1L, "firstName", "lastName")),
-                LocalDateTime.now(), LocalDateTime.now(), LocalDate.now()
-        );
-    }
-
-    private CreateTaskDto createCreateTaskDto() {
-        return new CreateTaskDto(
-                "title", "description", TaskStatus.OPEN,
-                1L, 1L, List.of(1L), LocalDate.now()
-        );
-    }
-
     @Test
     @DisplayName("GET /api/tasks/1 returns 200 OK and a valid JSON")
     void getTask_returnsValidResponseEntity() throws Exception {
@@ -174,5 +157,23 @@ class TaskControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(mockTask)))
                 .andExpect(status().isNotFound());
+    }
+
+
+    private TaskDto createTaskDto(Long id) {
+        return new TaskDto(
+                id, "title", "description", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now(), TaskStatus.OPEN,
+                new EmployeeShortDto(1L, "firstName", "lastName"),
+                new EmployeeShortDto(1L, "firstName", "lastName"),
+                List.of(new EmployeeShortDto(1L, "firstName", "lastName"))
+
+        );
+    }
+
+    private CreateTaskDto createCreateTaskDto() {
+        return new CreateTaskDto(1L, 1L,
+                "title", "description", LocalDate.now(), TaskStatus.OPEN,
+                List.of(1L)
+        );
     }
 }

@@ -17,20 +17,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTaskDto {
+    @NotNull(message = "authorId is required") //todo -DONE- @saivanov:  authorId наверное
+    private Long authorId;
+
+    private Long assigneeId;
+
     @NotBlank(message = "title is required")
     private String title;
 
     private String description;
 
-    private TaskStatus status;
-
-    @NotNull(message = "author is required") //todo @saivanov:  authorId наверное
-    private Long authorId;
-
-    private Long assigneeId;
-
-    private List<Long> viewersIds;
-
     private LocalDate deadline;
 
+    private TaskStatus status;
+
+    private List<Long> viewersIds;
 }

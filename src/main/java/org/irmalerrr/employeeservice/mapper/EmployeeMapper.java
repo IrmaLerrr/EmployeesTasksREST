@@ -10,23 +10,15 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 @Mapper(componentModel = "spring")
-public abstract class EmployeeMapper {
+public interface EmployeeMapper {
 
-    public abstract EmployeeDto toDto(Employee employee);
+    EmployeeDto toDto(Employee employee);
 
-    public abstract List<EmployeeDto> toDtoList(List<Employee> employees);
+    List<EmployeeDto> toDtoList(List<Employee> employees);
 
-    public abstract EmployeeShortDto toShortDto(Employee employee);
+    EmployeeShortDto toShortDto(Employee employee);
 
-    public abstract List<EmployeeShortDto> toShortDtoList(List<Employee> employee);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "createdTasks", ignore = true)
-    @Mapping(target = "assignedTasks", ignore = true)
-    @Mapping(target = "viewedTasks", ignore = true)
-    public abstract Employee toEntity(CreateEmployeeDto dto);
+    List<EmployeeShortDto> toShortDtoList(List<Employee> employee);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -34,5 +26,13 @@ public abstract class EmployeeMapper {
     @Mapping(target = "createdTasks", ignore = true)
     @Mapping(target = "assignedTasks", ignore = true)
     @Mapping(target = "viewedTasks", ignore = true)
-    public abstract Employee updateEntity(@MappingTarget Employee entity, CreateEmployeeDto dto);
+    Employee toEntity(CreateEmployeeDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "createdTasks", ignore = true)
+    @Mapping(target = "assignedTasks", ignore = true)
+    @Mapping(target = "viewedTasks", ignore = true)
+    Employee updateEntity(@MappingTarget Employee entity, CreateEmployeeDto dto);
 }

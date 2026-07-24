@@ -43,63 +43,6 @@ class TaskServiceTests {
     @InjectMocks
     private TaskService taskService;
 
-    private Employee createEmployee(Long id) {
-        return Employee.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .build();
-    }
-    private EmployeeShortDto createEmployeeShortDto(Long id) {
-        return EmployeeShortDto.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .build();
-    }
-
-    private Task createTask(Long id) {
-        return Task.builder()
-                .id(id)
-                .title("title")
-                .description("description")
-                .status(TaskStatus.OPEN)
-                .deadline(LocalDate.now())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .author(createEmployee(1L))
-                .assignee(createEmployee(2L))
-                .viewers(new ArrayList<>(List.of(createEmployee(3L), createEmployee(4L))))
-                .build();
-    }
-
-    private CreateTaskDto createCreateTaskDto() {
-        return CreateTaskDto.builder()
-                .title("title")
-                .description("description")
-                .status(TaskStatus.OPEN)
-                .authorId(1L)
-                .assigneeId(2L)
-                .viewersIds(List.of(3L, 4L))
-                .deadline(LocalDate.now())
-                .build();
-    }
-
-    private TaskDto createTaskDto(Long id) {
-        return TaskDto.builder()
-                .id(id)
-                .title("title")
-                .description("description")
-                .status(TaskStatus.OPEN)
-                .author(createEmployeeShortDto(1L))
-                .assignee(createEmployeeShortDto(2L))
-                .viewers(List.of(createEmployeeShortDto(3L), createEmployeeShortDto(4L)))
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .deadline(LocalDate.now())
-                .build();
-    }
-
     @Test
     @DisplayName("getTask should return TaskDto when task exists")
     void getTask_ShouldReturnTaskDto() {
@@ -168,14 +111,15 @@ class TaskServiceTests {
         CreateTaskDto dto = createCreateTaskDto();
         Employee author = createEmployee(1L);
         Employee assignee = createEmployee(2L);
-        List<Employee> viewers = List.of(createEmployee(3L), createEmployee(4L));
+        Employee viewer1 = createEmployee(3L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> viewers = List.of(viewer1, viewer2);
+        List<Employee> allEmployees = List.of(author, assignee, viewer1, viewer2);
         Task taskToSave = createTask(null);
         Task savedTask = createTask(1L);
         TaskDto expectedDto = createTaskDto(1L);
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(assignee));
-        when(employeeRepository.findAllById(List.of(3L, 4L))).thenReturn(viewers);
+        when(employeeRepository.findAllById(List.of(1L, 2L, 3L, 4L))).thenReturn(allEmployees);
         when(taskMapper.toEntity(dto, author, assignee, viewers)).thenReturn(taskToSave);
         when(taskRepository.save(taskToSave)).thenReturn(savedTask);
         when(taskMapper.toDto(savedTask)).thenReturn(expectedDto);
@@ -183,9 +127,7 @@ class TaskServiceTests {
         TaskDto actualDto = taskService.createTask(dto);
 
         assertThat(actualDto).isEqualTo(expectedDto);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
-        verify(employeeRepository).findAllById(List.of(3L, 4L));
+        verify(employeeRepository).findAllById(List.of(1L, 2L, 3L, 4L));
         verify(taskMapper).toEntity(dto, author, assignee, viewers);
         verify(taskRepository).save(taskToSave);
         verify(taskMapper).toDto(savedTask);
@@ -196,13 +138,15 @@ class TaskServiceTests {
     void createTask_ShouldCreateTaskWithoutAssignee() {
         CreateTaskDto dto = createCreateTaskDto().setAssigneeId(null);
         Employee author = createEmployee(1L);
-        List<Employee> viewers = List.of(createEmployee(3L), createEmployee(4L));
+        Employee viewer1 = createEmployee(3L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> viewers = List.of(viewer1, viewer2);
+        List<Employee> allEmployees = List.of(author, viewer1, viewer2);
         Task taskToSave = createTask(null);
         Task savedTask = createTask(1L);
         TaskDto expectedDto = createTaskDto(1L).setAssignee(null);
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findAllById(List.of(3L, 4L))).thenReturn(viewers);
+        when(employeeRepository.findAllById(List.of(1L, 3L, 4L))).thenReturn(allEmployees);
         when(taskMapper.toEntity(dto, author, null, viewers)).thenReturn(taskToSave);
         when(taskRepository.save(taskToSave)).thenReturn(savedTask);
         when(taskMapper.toDto(savedTask)).thenReturn(expectedDto);
@@ -210,9 +154,7 @@ class TaskServiceTests {
         TaskDto actualDto = taskService.createTask(dto);
 
         assertThat(actualDto).isEqualTo(expectedDto);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository, never()).findById(2L);
-        verify(employeeRepository).findAllById(List.of(3L, 4L));
+        verify(employeeRepository).findAllById(List.of(1L, 3L, 4L));
         verify(taskMapper).toEntity(dto, author, null, viewers);
         verify(taskRepository).save(taskToSave);
     }
@@ -223,12 +165,12 @@ class TaskServiceTests {
         CreateTaskDto dto = createCreateTaskDto().setViewersIds(null);
         Employee author = createEmployee(1L);
         Employee assignee = createEmployee(2L);
+        List<Employee> allEmployees = List.of(author, assignee);
         Task taskToSave = createTask(null);
         Task savedTask = createTask(1L);
         TaskDto expectedDto = createTaskDto(1L).setViewers(null);
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(assignee));
+        when(employeeRepository.findAllById(List.of(1L, 2L))).thenReturn(allEmployees);
         when(taskMapper.toEntity(dto, author, assignee, new ArrayList<>())).thenReturn(taskToSave);
         when(taskRepository.save(taskToSave)).thenReturn(savedTask);
         when(taskMapper.toDto(savedTask)).thenReturn(expectedDto);
@@ -236,8 +178,7 @@ class TaskServiceTests {
         TaskDto actualDto = taskService.createTask(dto);
 
         assertThat(actualDto).isEqualTo(expectedDto);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
+        verify(employeeRepository).findAllById(List.of(1L, 2L));
         verify(taskMapper).toEntity(dto, author, assignee, new ArrayList<>());
     }
 
@@ -247,12 +188,12 @@ class TaskServiceTests {
         CreateTaskDto dto = createCreateTaskDto().setViewersIds(List.of());
         Employee author = createEmployee(1L);
         Employee assignee = createEmployee(2L);
+        List<Employee> allEmployees = List.of(author, assignee);
         Task taskToSave = createTask(null);
         Task savedTask = createTask(1L);
         TaskDto expectedDto = createTaskDto(1L).setViewers(List.of());
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(assignee));
+        when(employeeRepository.findAllById(List.of(1L, 2L))).thenReturn(allEmployees);
         when(taskMapper.toEntity(dto, author, assignee, new ArrayList<>())).thenReturn(taskToSave);
         when(taskRepository.save(taskToSave)).thenReturn(savedTask);
         when(taskMapper.toDto(savedTask)).thenReturn(expectedDto);
@@ -260,8 +201,7 @@ class TaskServiceTests {
         TaskDto actualDto = taskService.createTask(dto);
 
         assertThat(actualDto).isEqualTo(expectedDto);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
+        verify(employeeRepository).findAllById(List.of(1L, 2L));
     }
 
     @Test
@@ -269,14 +209,18 @@ class TaskServiceTests {
     void createTask_ShouldThrowEmployeeNotFoundExceptionWhenAuthorNotFound() {
         CreateTaskDto dto = createCreateTaskDto();
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+        Employee assignee = createEmployee(2L);
+        Employee viewer1 = createEmployee(3L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> allEmployees = List.of(assignee, viewer1, viewer2);
+
+        when(employeeRepository.findAllById(List.of(1L, 2L, 3L, 4L))).thenReturn(allEmployees);
 
         assertThatThrownBy(() -> taskService.createTask(dto))
                 .isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessage("Employee not found with id: 1");
 
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository, never()).findById(2L);
+        verify(employeeRepository).findAllById(List.of(1L, 2L, 3L, 4L));
         verify(taskRepository, never()).save(any());
     }
 
@@ -285,15 +229,18 @@ class TaskServiceTests {
     void createTask_ShouldThrowEmployeeNotFoundExceptionWhenAssigneeNotFound() {
         CreateTaskDto dto = createCreateTaskDto();
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(createEmployee(1L)));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.empty());
+        Employee author = createEmployee(1L);
+        Employee viewer1 = createEmployee(3L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> allEmployees = List.of(author, viewer1, viewer2);
+
+        when(employeeRepository.findAllById(List.of(1L, 2L, 3L, 4L))).thenReturn(allEmployees);
 
         assertThatThrownBy(() -> taskService.createTask(dto))
                 .isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessage("Employee not found with id: 2");
 
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
+        verify(employeeRepository).findAllById(List.of(1L, 2L, 3L, 4L));
         verify(taskRepository, never()).save(any());
     }
 
@@ -302,17 +249,37 @@ class TaskServiceTests {
     void createTask_ShouldThrowEmployeeNotFoundExceptionWhenViewerNotFound() {
         CreateTaskDto dto = createCreateTaskDto();
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(createEmployee(1L)));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(createEmployee(2L)));
-        when(employeeRepository.findAllById(List.of(3L, 4L))).thenReturn(List.of(createEmployee(3L)));
+        Employee author = createEmployee(1L);
+        Employee assignee = createEmployee(2L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> allEmployees = List.of(author, assignee, viewer2);
+
+        when(employeeRepository.findAllById(List.of(1L, 2L, 3L, 4L))).thenReturn(allEmployees);
 
         assertThatThrownBy(() -> taskService.createTask(dto))
                 .isInstanceOf(EmployeeNotFoundException.class)
-                .hasMessage("Employee not found");
+                .hasMessage("Employee not found with id: 3");
 
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
-        verify(employeeRepository).findAllById(List.of(3L, 4L));
+        verify(employeeRepository).findAllById(List.of(1L, 2L, 3L, 4L));
+        verify(taskRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("createTask should throw EmployeeNotFoundException when employees not found")
+    void createTask_ShouldThrowEmployeeNotFoundExceptionWhenEmployeesNotFound() {
+        CreateTaskDto dto = createCreateTaskDto();
+
+        Employee author = createEmployee(1L);
+        Employee viewer2 = createEmployee(4L);
+        List<Employee> allEmployees = List.of(author, viewer2);
+
+        when(employeeRepository.findAllById(List.of(1L, 2L, 3L, 4L))).thenReturn(allEmployees);
+
+        assertThatThrownBy(() -> taskService.createTask(dto))
+                .isInstanceOf(EmployeeNotFoundException.class)
+                .hasMessage("Employees not found for IDs: [2, 3]");
+
+        verify(employeeRepository).findAllById(List.of(1L, 2L, 3L, 4L));
         verify(taskRepository, never()).save(any());
     }
 
@@ -324,16 +291,20 @@ class TaskServiceTests {
         CreateTaskDto dto = createCreateTaskDto();
         Task existingTask = createTask(taskId);
         existingTask.setViewers(new ArrayList<>(List.of(createEmployee(3L), createEmployee(4L))));
+
         Employee author = createEmployee(1L);
         Employee assignee = createEmployee(2L);
-        List<Employee> viewers = new ArrayList<>(List.of(createEmployee(3L), createEmployee(4L)));
+        List<Employee> allEmployees = List.of(
+                author,
+                assignee,
+                createEmployee(3L),
+                createEmployee(4L)
+        );
         Task updatedTask = createTask(taskId);
         TaskDto expectedDto = createTaskDto(taskId);
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(assignee));
-        when(employeeRepository.findAllById(List.of(3L, 4L))).thenReturn(viewers);
+        when(employeeRepository.findAllById(any())).thenReturn(allEmployees);
         when(taskMapper.updateEntity(existingTask, dto, author, assignee)).thenReturn(updatedTask);
         when(taskRepository.save(updatedTask)).thenReturn(updatedTask);
         when(taskMapper.toDto(updatedTask)).thenReturn(expectedDto);
@@ -342,9 +313,7 @@ class TaskServiceTests {
 
         assertThat(actualDto).isEqualTo(expectedDto);
         verify(taskRepository).findById(taskId);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
-        verify(employeeRepository).findAllById(List.of(3L, 4L));
+        verify(employeeRepository).findAllById(any());
         verify(taskMapper).updateEntity(existingTask, dto, author, assignee);
         verify(taskRepository).save(updatedTask);
         verify(taskMapper).toDto(updatedTask);
@@ -360,14 +329,17 @@ class TaskServiceTests {
 
         Employee author = createEmployee(1L);
         Employee assignee = createEmployee(2L);
-        List<Employee> newViewers = List.of(createEmployee(4L), createEmployee(5L));
+        List<Employee> allEmployees = List.of(
+                author,
+                assignee,
+                createEmployee(4L),
+                createEmployee(5L)
+        );
         Task updatedTask = createTask(taskId);
         TaskDto expectedDto = createTaskDto(taskId);
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(assignee));
-        when(employeeRepository.findAllById(List.of(4L, 5L))).thenReturn(newViewers);
+        when(employeeRepository.findAllById(any())).thenReturn(allEmployees);
         when(taskMapper.updateEntity(existingTask, dto, author, assignee)).thenReturn(updatedTask);
         when(taskRepository.save(updatedTask)).thenReturn(updatedTask);
         when(taskMapper.toDto(updatedTask)).thenReturn(expectedDto);
@@ -398,64 +370,46 @@ class TaskServiceTests {
     }
 
     @Test
-    @DisplayName("updateTask should throw EmployeeNotFoundException when author not found during update")
-    void updateTask_ShouldThrowEmployeeNotFoundExceptionWhenAuthorNotFound() {
+    @DisplayName("updateTask should throw EmployeeNotFoundException when any employee not found during update")
+    void updateTask_ShouldThrowEmployeeNotFoundExceptionWhenEmployeeNotFound() {
         Long taskId = 1L;
         CreateTaskDto dto = createCreateTaskDto();
         Task existingTask = createTask(taskId);
+        List<Long> expectedIds = List.of(1L, 2L, 3L, 4L);
+        List<Employee> foundEmployees = List.of(createEmployee(1L), createEmployee(2L), createEmployee(4L));
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-        when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+
+        when(employeeRepository.findAllById(expectedIds)).thenReturn(foundEmployees);
 
         assertThatThrownBy(() -> taskService.updateTask(taskId, dto))
                 .isInstanceOf(EmployeeNotFoundException.class)
-                .hasMessage("Employee not found with id: 1");
+                .hasMessage("Employee not found with id: 3");
 
         verify(taskRepository).findById(taskId);
-        verify(employeeRepository).findById(1L);
+        verify(employeeRepository).findAllById(expectedIds);
         verify(taskRepository, never()).save(any());
     }
 
     @Test
-    @DisplayName("updateTask should throw EmployeeNotFoundException when assignee not found during update")
-    void updateTask_ShouldThrowEmployeeNotFoundExceptionWhenAssigneeNotFound() {
+    @DisplayName("updateTask should throw EmployeeNotFoundException when some employees not found during update")
+    void updateTask_ShouldThrowEmployeeNotFoundExceptionWhenEmployeesNotFound() {
         Long taskId = 1L;
         CreateTaskDto dto = createCreateTaskDto();
         Task existingTask = createTask(taskId);
+        List<Long> expectedIds = List.of(1L, 2L, 3L, 4L);
+        List<Employee> foundEmployees = List.of(createEmployee(1L), createEmployee(4L));
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(createEmployee(1L)));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.empty());
+
+        when(employeeRepository.findAllById(expectedIds)).thenReturn(foundEmployees);
 
         assertThatThrownBy(() -> taskService.updateTask(taskId, dto))
                 .isInstanceOf(EmployeeNotFoundException.class)
-                .hasMessage("Employee not found with id: 2");
+                .hasMessage("Employees not found for IDs: [2, 3]");
 
         verify(taskRepository).findById(taskId);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
-        verify(taskRepository, never()).save(any());
-    }
-    @Test
-    @DisplayName("updateTask should throw EmployeeNotFoundException when any viewer not found during update")
-    void updateTask_ShouldThrowEmployeeNotFoundExceptionWhenViewerNotFound() {
-        Long taskId = 1L;
-        CreateTaskDto dto = createCreateTaskDto();
-        Task existingTask = createTask(taskId);
-
-        when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(createEmployee(1L)));
-        when(employeeRepository.findById(2L)).thenReturn(Optional.of(createEmployee(2L)));
-        when(employeeRepository.findAllById(List.of(3L, 4L))).thenReturn(List.of(createEmployee(3L)));
-
-        assertThatThrownBy(() -> taskService.updateTask(taskId, dto))
-                .isInstanceOf(EmployeeNotFoundException.class)
-                .hasMessage("Employee not found");
-
-        verify(taskRepository).findById(taskId);
-        verify(employeeRepository).findById(1L);
-        verify(employeeRepository).findById(2L);
-        verify(employeeRepository).findAllById(List.of(3L, 4L));
+        verify(employeeRepository).findAllById(expectedIds);
         verify(taskRepository, never()).save(any());
     }
 
@@ -487,5 +441,62 @@ class TaskServiceTests {
 
         verify(taskRepository).findById(taskId);
         verify(taskRepository, never()).delete(any());
+    }
+
+    private Employee createEmployee(Long id) {
+        return Employee.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .build();
+    }
+    private EmployeeShortDto createEmployeeShortDto(Long id) {
+        return EmployeeShortDto.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .build();
+    }
+
+    private Task createTask(Long id) {
+        return Task.builder()
+                .id(id)
+                .title("title")
+                .description("description")
+                .status(TaskStatus.OPEN)
+                .deadline(LocalDate.now())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .author(createEmployee(1L))
+                .assignee(createEmployee(2L))
+                .viewers(new ArrayList<>(List.of(createEmployee(3L), createEmployee(4L))))
+                .build();
+    }
+
+    private CreateTaskDto createCreateTaskDto() {
+        return CreateTaskDto.builder()
+                .title("title")
+                .description("description")
+                .status(TaskStatus.OPEN)
+                .authorId(1L)
+                .assigneeId(2L)
+                .viewersIds(List.of(3L, 4L))
+                .deadline(LocalDate.now())
+                .build();
+    }
+
+    private TaskDto createTaskDto(Long id) {
+        return TaskDto.builder()
+                .id(id)
+                .title("title")
+                .description("description")
+                .status(TaskStatus.OPEN)
+                .author(createEmployeeShortDto(1L))
+                .assignee(createEmployeeShortDto(2L))
+                .viewers(List.of(createEmployeeShortDto(3L), createEmployeeShortDto(4L)))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .deadline(LocalDate.now())
+                .build();
     }
 }

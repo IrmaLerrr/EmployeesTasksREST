@@ -35,49 +35,6 @@ class EmployeeServiceTests {
     @InjectMocks
     private EmployeeService employeeService;
 
-    private Employee createEmployee(Long id) {
-        Task task = Task.builder().id(1L).title("title").build();
-        return Employee.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .email("test@test.test")
-                .salaryGross(BigDecimal.valueOf(10000))
-                .phoneNumber("+71234567890")
-                .position("position")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .createdTasks(List.of(task))
-                .assignedTasks(List.of(task))
-                .viewedTasks(List.of(task))
-                .build();
-    }
-
-    private EmployeeDto createEmployeeDto(Long id) {
-        return EmployeeDto.builder()
-                .id(id)
-                .firstName("firstName")
-                .lastName("lastName")
-                .email("test@test.test")
-                .salaryGross(BigDecimal.valueOf(10000))
-                .phoneNumber("+71234567890")
-                .position("position")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
-    }
-
-    private CreateEmployeeDto createCreateEmployeeDto() {
-        return CreateEmployeeDto.builder()
-                .firstName("firstName")
-                .lastName("lastName")
-                .email("test@test.test")
-                .salaryGross(BigDecimal.valueOf(10000))
-                .phoneNumber("+71234567890")
-                .position("position")
-                .build();
-    }
-
     @Test
     @DisplayName("getEmployee should return EmployeeDto when employee exists")
     void getEmployee_ShouldReturnEmployeeDto() {
@@ -226,5 +183,48 @@ class EmployeeServiceTests {
 
         verify(employeeRepository).findById(employeeId);
         verify(employeeRepository, never()).delete(any());
+    }
+
+    private Employee createEmployee(Long id) {
+        Task task = Task.builder().id(1L).title("title").build();
+        return Employee.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("test@test.test")
+                .salaryGross(BigDecimal.valueOf(10000))
+                .phoneNumber("+71234567890")
+                .position("position")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .createdTasks(List.of(task))
+                .assignedTasks(List.of(task))
+                .viewedTasks(List.of(task))
+                .build();
+    }
+
+    private EmployeeDto createEmployeeDto(Long id) {
+        return EmployeeDto.builder()
+                .id(id)
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("test@test.test")
+                .salaryGross(BigDecimal.valueOf(10000))
+                .phoneNumber("+71234567890")
+                .position("position")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    private CreateEmployeeDto createCreateEmployeeDto() {
+        return CreateEmployeeDto.builder()
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("test@test.test")
+                .salaryGross(BigDecimal.valueOf(10000))
+                .phoneNumber("+71234567890")
+                .position("position")
+                .build();
     }
 }

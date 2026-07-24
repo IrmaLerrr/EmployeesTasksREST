@@ -1,4 +1,4 @@
---V8__add_task_viewers_table.sql
+--V3__create_task_viewers_table.sql
 
 CREATE TABLE task_viewers (
     task_id BIGINT NOT NULL,
