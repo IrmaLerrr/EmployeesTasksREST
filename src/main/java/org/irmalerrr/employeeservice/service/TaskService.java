@@ -25,7 +25,6 @@ public class TaskService {
     private final EmployeeRepository employeeRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
-//todo -DONE- @saivanov: лишний перенос тут
 
     /**
      * Выдает задачу по ее id
@@ -72,7 +71,7 @@ public class TaskService {
                 .collect(Collectors.toMap(Employee::getId, Function.identity()));
 
 
-        Employee author = employeeMap.get(dto.getAuthorId());//todo -DONE- @saivanov: ты getEmployeeFromDto вызываешь 2 раза, и еще потом getEmployeesFromDto. 3 запроса в бд летит) можно оптимизировать) собрать все нужные айдишники,сделать getEmployeesFromDto, и потом из полученого списка вытащить нужные тебе обьбекты по айди)
+        Employee author = employeeMap.get(dto.getAuthorId());
         Employee assignee = employeeMap.get(dto.getAssigneeId());
         List<Employee> viewers = new ArrayList<>();
         if (dto.getViewersIds() != null) {
@@ -95,7 +94,6 @@ public class TaskService {
      * @throws TaskNotFoundException     если таска с указанным id не найдена
      * @throws EmployeeNotFoundException если сотрудник с указанным id не найден
      */
-    //todo -DONE- @saivanov: Почитай про аннатацию @Transactional. для чего она нужна, как работает и когда используется.
     @Transactional
     public TaskDto updateTask(Long id, CreateTaskDto dto) {
         Task entity = taskRepository.findById(id)
@@ -129,7 +127,6 @@ public class TaskService {
 
         Set<Long> targetViewerIds = targetViewers.stream().map(Employee::getId).collect(Collectors.toSet());
         sourceViewers.removeIf(viewer -> !targetViewerIds.contains(viewer.getId()));
-        //todo -DONE- @saivanov: а как происходит сравнение тут? если сравниваются ссылки через ==, то может быть беда. Луше сделай  Set<Long> из йдишников targetViewers, и проверяй есть ли в этом сете viewer.getId().
 
         targetViewers.stream()
                 .filter(viewer -> !sourceViewers.contains(viewer))
@@ -151,8 +148,8 @@ public class TaskService {
         taskRepository.delete(target);
     }
 
-    private List<Employee> findEmployeesByIds(List<Long> ids) { // todo -DONE- @saivanov: у тебя getEmployeeFromDto возвращает не ДТО) стоит переименовать метод
-        if (CollectionUtils.isEmpty(ids)) { //todo -DONE- @saivanov: можно использовать CollectionUtils.isEmpty
+    private List<Employee> findEmployeesByIds(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
             return new ArrayList<>();
         }
         List<Employee> employees = employeeRepository.findAllById(ids);
@@ -166,21 +163,9 @@ public class TaskService {
                     .toList();
 
             if (notFoundIds.size() == 1) throw new EmployeeNotFoundException(notFoundIds.getFirst());
-            throw new EmployeeNotFoundException(String.format("Employees not found for IDs: %s", notFoundIds));//todo -DONE- @saivanov: старайся границы IF указывать({}) и сообщение подправь "EmployeeS not found" ну и мб стоит выводить, каких именнно айди не найдено?
+            throw new EmployeeNotFoundException(String.format("Employees not found for IDs: %s", notFoundIds));
         }
         return employees;
     }
-
-
-//    private void updateViewers(List<Employee> sourceViewers, List<Employee> targetViewers) {  //todo -DONE: я вместо этого вернула эту логику в метод, не представляю как сунуть это в маппер, тут замена одних связей бд на другие- @saivanov:  ябы запихнул этот метод в Маппер, и сделал бы его дефолтным) как раз удобно будет тестить)
-//        //todo -DONE- @saivanov: можно сразу на вход передавать список существующих вбюверов таски, чтоб обьект таски не тащить
-//
-//        Set<Long> targetViewerIds = targetViewers.stream().map(Employee::getId).collect(Collectors.toSet());
-//        sourceViewers.removeIf(viewer -> !targetViewerIds.contains(viewer.getId())); //todo -DONE- @saivanov: а как происходит сравнение тут? если сравниваются ссылки через ==, то может быть беда. Луше сделай  Set<Long> из йдишников targetViewers, и проверяй есть ли в этом сете viewer.getId().
-//
-//        targetViewers.stream()
-//                .filter(viewer -> !sourceViewers.contains(viewer))
-//                .forEach(sourceViewers::add);
-//    }
 }
 

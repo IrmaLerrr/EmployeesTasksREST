@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTaskDto {
-    @NotNull(message = "authorId is required") //todo -DONE- @saivanov:  authorId наверное
+    @NotNull(message = "authorId is required")
     private Long authorId;
 
     private Long assigneeId;

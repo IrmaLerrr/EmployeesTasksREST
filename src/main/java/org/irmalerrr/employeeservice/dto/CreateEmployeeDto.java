@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreateEmployeeDto {
 
-    @NotBlank(message = "firstName is required") //todo -ОТВЕТ:ну прост так понятнее, можно не удалять кастомные сообщения?- @saivanov: дефолтное сообщение не понравилось?)
+    @NotBlank(message = "firstName is required")
     private String firstName;
 
     @NotBlank(message = "lastName is required")

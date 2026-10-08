@@ -14,7 +14,6 @@ java {
 	}
 }
 
-//todo -DONE- @saivanov: давай версии либ вынесем в отдельные проперти(надо блок ext сделать, и завести переменные типа mapstructVersion="1.5.5.Final")
 ext {
 	mapstructVersion = "1.5.5.Final"
 	lombokMapstructVersion = "0.2.0"

@@ -1,5 +1,4 @@
 -- V1__create_employee_table.sql
---todo -DONE- @saivanov: т.к. мы еще не в проде, давай проведем рефакторинг миграции. учитывая финальное состояние таблиц, сократи кол-во скриптов)
 CREATE TABLE IF NOT EXISTS employee (
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
